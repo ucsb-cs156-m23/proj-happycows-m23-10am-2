@@ -139,12 +139,12 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           data-testid={`${testid}-degradationRate`}
           id="degradationRate"
           type="number"
-          step="0.01"
+          step="0.001"
           isInvalid={!!errors.degradationRate}
           {...register("degradationRate", {
             valueAsNumber: true,
             required: "Degradation rate is required",
-            min: {value: 0.00, message: "Degradation rate must be ≥ 0.00"},
+            min: {value: 0.000, message: "Degradation rate must be ≥ 0.000"},
           })}
         />
         <Form.Control.Feedback type="invalid">
