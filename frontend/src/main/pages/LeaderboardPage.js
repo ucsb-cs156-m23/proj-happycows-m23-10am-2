@@ -60,7 +60,7 @@ export default function LeaderboardPage() {
         <BasicLayout>
             <div className="pt-2">
                 <Button
-                  variant="outline-danger"
+                  variant="danger"
                   onClick={() => navigate(-1)}
                   data-testid={"Leaderboard-back"}
                 >
