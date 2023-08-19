@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
                 <Button
                   variant="outline-danger"
                   onClick={() => navigate(-1)}
-                  data-testid={"Leaderboard-cancel"}
+                  data-testid={"Leaderboard-back"}
                 >
                   Back
                 </Button>
