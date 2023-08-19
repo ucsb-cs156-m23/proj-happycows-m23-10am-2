@@ -165,7 +165,7 @@ describe("CommonsForm tests", () => {
 
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
-    await screen.findByText(/Degradation rate must be ≥ 0.00/i);
+    await screen.findByText(/Degradation rate must be ≥ 0.000/i);
 
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
