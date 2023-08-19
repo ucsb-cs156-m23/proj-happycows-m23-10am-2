@@ -16,6 +16,13 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         {
             Header: 'Total Wealth',
             accessor: 'totalWealth',
+            //this is the func to  can return custom tableCell
+            Cell : (props)=>{
+            //props.value will contain your date
+            //you can convert total wealth data here
+                const custom_wealth = '$'+props.value.toFixed(2)
+                return <span>{custom_wealth}</span>
+            }
         },
         {
             Header: 'Cows Owned',
