@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { useTable, useSortBy } from 'react-table'
 import { Table, Button, Modal } from "react-bootstrap";
 import Plaintext from "main/components/Utils/Plaintext";
