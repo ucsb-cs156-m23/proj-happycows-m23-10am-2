@@ -114,11 +114,10 @@ export function ButtonColumn(label, variant, callback, testid) {
         <Button
           variant={variant}
           onClick={() => {
-            if (label === "Edit") {
-              callback(cell);
-            }
-            else if (label === "Delete") {
+            if (label === "Delete") {
               handleShow();
+            } else {
+              callback(cell);
             }}
           }
           data-testid={`${testid}-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
@@ -130,6 +129,7 @@ export function ButtonColumn(label, variant, callback, testid) {
           onHide={handleClose}
           backdrop="static"
           keyboard={false}
+          data-testid="delete-modal"
         >
           <Modal.Header closeButton>
             <Modal.Title>Are you sure you want to delete this commons?</Modal.Title>
@@ -138,10 +138,10 @@ export function ButtonColumn(label, variant, callback, testid) {
             This is your last chance to keep this commons. If you choose to delete it, it will be gone forever.
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button-row-${cell.row.index}-col-${cell.column.id}-button`}>
             Keep this Commons
             </Button>
-            <Button variant="danger" onClick={() => { callback(cell); handleClose()}}>
+            <Button variant="danger" onClick={() => { callback(cell); handleClose()}} data-testid={`confirm-delete-button-row-${cell.row.index}-col-${cell.column.id}-button`}>
             Permanently Delete
               </Button>
           </Modal.Footer>
