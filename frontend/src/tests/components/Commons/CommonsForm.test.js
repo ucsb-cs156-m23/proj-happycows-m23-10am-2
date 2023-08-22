@@ -6,7 +6,6 @@ import commonsFixtures from "fixtures/commonsFixtures"
 import AxiosMockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import healthUpdateStrategyListFixtures from "fixtures/healthUpdateStrategyListFixtures";
-
 // Next line uses technique from https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
 import * as useBackendModule from "main/utils/useBackend";
 
@@ -65,6 +64,15 @@ describe("CommonsForm tests", () => {
 
   it("has validation errors for required fields", async () => {
     const submitAction = jest.fn();
+    const curr = new Date();
+    const today = curr.toISOString().substring(0, 10);
+    const defaultValues = {
+      startingBalance: 10000,
+      cowPrice: 100,
+      milkPrice: 20,
+      degradationRate: 1.5,
+      carryingCapacity: 100
+    } 
 
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
@@ -87,12 +95,31 @@ describe("CommonsForm tests", () => {
 
     fireEvent.click(submitButton);
     expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
+
+    // MODIFIED TESTS
+    expect(screen.getByTestId("CommonsForm-startingBalance")).toHaveValue(defaultValues.startingBalance);
+    expect(screen.getByTestId("CommonsForm-cowPrice")).toHaveValue(defaultValues.cowPrice);
+    expect(screen.getByTestId("CommonsForm-milkPrice")).toHaveValue(defaultValues.milkPrice);
+    expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(today);
+    expect(screen.getByTestId("CommonsForm-degradationRate")).toHaveValue(defaultValues.degradationRate);
+    expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(defaultValues.carryingCapacity);
+
+
+    //Reset back to empty fields
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.click(submitButton);
     expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
     expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();     
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/carrying capacity is required/i)).toBeInTheDocument();
+    
 
     // check that each of the fields that has 
     // a validation error is marked as invalid
