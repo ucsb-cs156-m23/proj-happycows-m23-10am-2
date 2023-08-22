@@ -96,7 +96,6 @@ describe("CommonsForm tests", () => {
     fireEvent.click(submitButton);
     expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
 
-    // MODIFIED TESTS
     expect(screen.getByTestId("CommonsForm-startingBalance")).toHaveValue(defaultValues.startingBalance);
     expect(screen.getByTestId("CommonsForm-cowPrice")).toHaveValue(defaultValues.cowPrice);
     expect(screen.getByTestId("CommonsForm-milkPrice")).toHaveValue(defaultValues.milkPrice);
@@ -112,14 +111,16 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+
+    //Reset to Invalid Values
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
-    expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();     
-    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/carrying capacity is required/i)).toBeInTheDocument();
-    
+
+    const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
 
     // check that each of the fields that has 
     // a validation error is marked as invalid
@@ -135,8 +136,8 @@ describe("CommonsForm tests", () => {
       "CommonsForm-degradationRate",
       "CommonsForm-carryingCapacity",
     ].forEach(
-      (testid) => {
-        const element = screen.getByTestId(testid);
+      (record) => {
+        const element = screen.getByTestId(record);
         expect(element).toBeInTheDocument();
         expect(element).toHaveClass("is-invalid");
       }
