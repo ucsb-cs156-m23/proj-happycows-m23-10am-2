@@ -19,8 +19,8 @@ export default function CommonsTable({ commons, currentUser }) {
         ["/api/commons/allplus"]
     );
 
-    const deleteCallback = async (cell) => { 
-        deleteMutation.mutate(cell); 
+    const deleteCallback = async (cell) => {
+        deleteMutation.mutateAsync(cell);
     }
 
     const leaderboardCallback = (cell) => {
