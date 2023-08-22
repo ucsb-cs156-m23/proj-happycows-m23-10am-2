@@ -111,10 +111,10 @@ export default function CommonsTable({ commons, currentUser }) {
         This is your last chance to keep this commons. If you choose to delete it, it will be gone forever.
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button-row-${cellToDelete.row.index}-col-${cellToDelete.column.id}-button`}>
+        <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button`}>
         Keep this Commons
         </Button>
-        <Button variant="danger" onClick={() => { deleteMutation.mutate(cellToDelete); handleClose()}} data-testid={`confirm-delete-button-row-${cellToDelete.row.index}-col-${cellToDelete.column.id}-button`}>
+        <Button variant="danger" onClick={() => { deleteMutation.mutate(cellToDelete); handleClose()}} data-testid={`confirm-delete-button`}>
         Permanently Delete
             </Button>
         </Modal.Footer>

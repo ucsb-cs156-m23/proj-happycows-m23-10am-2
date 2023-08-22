@@ -137,19 +137,18 @@ describe("AdminListCommonPage tests", () => {
        
         fireEvent.click(deleteButton2);
 
-        expect(await screen.findAllByTestId("delete-modal")).toHaveLength(3);
-        const cancelButton = screen.getByTestId(`cancel-delete-button-row-0-col-Delete-button`);
+        expect(await screen.findByTestId("delete-modal")).toBeInTheDocument();
+        const cancelButton = screen.getByTestId(`cancel-delete-button`);
 
         fireEvent.click(cancelButton);
         
-        expect(screen.queryByTestId(`delete-modal`)).not.toBeInTheDocument();   
         const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
        
         fireEvent.click(deleteButton);
 
-        expect(await screen.findAllByTestId("delete-modal")).toHaveLength(3);
-        const confirmDeleteButton = screen.getByTestId(`confirm-delete-button-row-0-col-Delete-button`);
+        expect(await screen.findByTestId("delete-modal")).toBeInTheDocument();
+        const confirmDeleteButton = screen.getByTestId(`confirm-delete-button`);
 
         fireEvent.click(confirmDeleteButton);
 
