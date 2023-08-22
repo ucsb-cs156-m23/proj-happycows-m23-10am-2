@@ -26,8 +26,6 @@ public class CreateCommonsParams {
     private int carryingCapacity;
     @NumberFormat
     private double degradationRate;
-
-    //#8
     @NumberFormat
     private int capacityPerUser;
 

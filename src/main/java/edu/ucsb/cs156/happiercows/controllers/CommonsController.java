@@ -86,7 +86,7 @@ public class CommonsController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<String> updateCommons(
-            @Parameter(name="commons identifier") @RequestParam long id,
+            @Parameter(name="id") @RequestParam long id,
             @Parameter(name="request body") @RequestBody CreateCommonsParams params
     ) {
         Optional<Commons> existing = commonsRepository.findById(id);
@@ -110,7 +110,6 @@ public class CommonsController extends ApiController {
         updated.setShowLeaderboard(params.getShowLeaderboard());
         updated.setDegradationRate(params.getDegradationRate());
         updated.setCarryingCapacity(params.getCarryingCapacity());
-        //#8
         updated.setCapacityPerUser(params.getCapacityPerUser());
 
         if (params.getAboveCapacityHealthUpdateStrategy() != null) {
@@ -157,7 +156,6 @@ public class CommonsController extends ApiController {
                 .degradationRate(params.getDegradationRate())
                 .showLeaderboard(params.getShowLeaderboard())
                 .carryingCapacity(params.getCarryingCapacity())
-                //#8
                 .capacityPerUser(params.getCapacityPerUser());
 
         // ok to set null values for these, so old backend still works
