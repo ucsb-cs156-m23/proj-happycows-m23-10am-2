@@ -10,7 +10,6 @@ import { useBackend } from "main/utils/useBackend";
 import { useCurrentUser } from "main/utils/currentUser";
 import Background from "../../assets/PlayPageBackground.png";
 
-//#12
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +20,6 @@ export default function LeaderboardPage() {
   const { commonsId } = useParams();
   const { data: currentUser } = useCurrentUser();
 
-  //#12
   const navigate = useNavigate();
 
   // Stryker disable all 
@@ -60,7 +58,7 @@ export default function LeaderboardPage() {
         <BasicLayout>
             <div className="pt-2">
                 <Button
-                  variant="danger"
+                  variant="secondary"
                   onClick={() => navigate(-1)}
                   data-testid={"Leaderboard-back"}
                 >

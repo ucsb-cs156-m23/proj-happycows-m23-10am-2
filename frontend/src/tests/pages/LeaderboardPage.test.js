@@ -165,7 +165,6 @@ describe("LeaderboardPage tests", () => {
         expect(await screen.findByText("Total Wealth")).toBeInTheDocument();
     });
     
-    //#12
     test("that navigate(-1) is called when Back is clicked", async () => {
         setupUser();
         axiosMock.onGet("/api/commons", { params: { id: 1 } }).reply(200, {
