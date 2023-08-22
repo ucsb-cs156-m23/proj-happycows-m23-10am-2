@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from "react";
 import { useTable, useSortBy } from 'react-table'
-import { Table, Button, Modal } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import Plaintext from "main/components/Utils/Plaintext";
-
 // Stryker disable all
 var tableStyle = {
   "background": "white",
@@ -101,52 +100,17 @@ export default function OurTable({ columns, data, testid = "testid", ...rest }) 
 // ];
 
 export function ButtonColumn(label, variant, callback, testid) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const column = {
     Header: label,
     id: label,
     Cell: ({ cell }) => (
-      <>
-        <Button
-          variant={variant}
-          onClick={() => {
-            if (label === "Delete") {
-              handleShow();
-            } else {
-              callback(cell);
-            }}
-          }
-          data-testid={`${testid}-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
-        >
-          {label}
-        </Button>
-        <Modal
-          show={show}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-          data-testid="delete-modal"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Are you sure you want to delete this commons?</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            This is your last chance to keep this commons. If you choose to delete it, it will be gone forever.
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button-row-${cell.row.index}-col-${cell.column.id}-button`}>
-            Keep this Commons
-            </Button>
-            <Button variant="danger" onClick={() => { callback(cell); handleClose()}} data-testid={`confirm-delete-button-row-${cell.row.index}-col-${cell.column.id}-button`}>
-            Permanently Delete
-              </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
+      <Button
+        variant={variant}
+        onClick={() => callback(cell)}
+        data-testid={`${testid}-cell-row-${cell.row.index}-col-${cell.column.id}-button`}
+      >
+        {label}
+      </Button>
     )
   }
   return column;

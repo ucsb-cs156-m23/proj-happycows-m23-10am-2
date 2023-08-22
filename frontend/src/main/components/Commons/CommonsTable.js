@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import OurTable, {ButtonColumn} from "main/components/OurTable";
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 export default function CommonsTable({ commons, currentUser }) {
+    const [show, setShow] = useState(false);
+    const [cellToDelete, setCellToDelete] = useState(null);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
 
@@ -20,7 +27,8 @@ export default function CommonsTable({ commons, currentUser }) {
     );
 
     const deleteCallback = async (cell) => {
-        deleteMutation.mutateAsync(cell);
+        setCellToDelete(cell);
+        handleShow();
     }
 
     const leaderboardCallback = (cell) => {
@@ -82,19 +90,43 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsIfAdmin = [
         ...columns,
-        ButtonColumn("Edit",
-"primary", editCallback, testid),
-        ButtonColumn("Delete",
-"danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard",
-"secondary", leaderboardCallback, testid)
+        ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid)
     ];
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    return <OurTable
+    const modalForm = (<Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        data-testid="delete-modal"
+    >
+        <Modal.Header closeButton>
+        <Modal.Title>Are you sure you want to delete this commons?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        This is your last chance to keep this commons. If you choose to delete it, it will be gone forever.
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button-row-${cellToDelete.row.index}-col-${cellToDelete.column.id}-button`}>
+        Keep this Commons
+        </Button>
+        <Button variant="danger" onClick={() => { deleteMutation.mutate(cellToDelete); handleClose()}} data-testid={`confirm-delete-button-row-${cellToDelete.row.index}-col-${cellToDelete.column.id}-button`}>
+        Permanently Delete
+            </Button>
+        </Modal.Footer>
+  </Modal>);
+
+    return (
+    <>
+        <OurTable
         data={commons}
         columns={columnsToDisplay}
         testid={testid}
-    />;
+        />
+        {modalForm}
+    </>);
 };
