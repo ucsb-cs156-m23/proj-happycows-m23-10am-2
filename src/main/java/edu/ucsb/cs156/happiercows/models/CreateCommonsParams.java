@@ -27,6 +27,10 @@ public class CreateCommonsParams {
     @NumberFormat
     private double degradationRate;
 
+    //#8
+    @NumberFormat
+    private int capacityPerUser;
+
     private String aboveCapacityHealthUpdateStrategy;
     private String belowCapacityHealthUpdateStrategy;
 }

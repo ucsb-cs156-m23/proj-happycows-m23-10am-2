@@ -32,6 +32,9 @@ public class Commons {
     private int carryingCapacity;
     private double degradationRate;
 
+    //#8
+    private int capacityPerUser;
+
     // these defaults match old behavior
     @Enumerated(EnumType.STRING)
     @Builder.Default

@@ -171,6 +171,25 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         </Form.Control.Feedback>
       </Form.Group>
 
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-capacityPerUser`}
+          id="capacityPerUser"
+          type="number"
+          step="1"
+          isInvalid={!!errors.carryingCapacity}
+          {...register("capacityPerUser", {
+            valueAsNumber: true,
+            required: "Capacity Per User is required",
+            min: {value: 1, message: "Capacity Per User must be ≥ 1"},
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.capacityPerUser?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
       <h4>
         Health update formula
       </h4>
