@@ -132,10 +132,26 @@ describe("AdminListCommonPage tests", () => {
         expect(await screen.findByTestId(`${testId}-cell-row-0-col-commons.id`)).toBeInTheDocument();
         expect(screen.getByTestId(`${testId}-cell-row-0-col-commons.id`)).toHaveTextContent("1"); 
 
+        const deleteButton2 = screen.getByTestId(`${testId}-cell-row-2-col-Delete-button`);
+        expect(deleteButton2).toBeInTheDocument();
+       
+        fireEvent.click(deleteButton2);
+
+        expect(await screen.findAllByTestId("delete-modal")).toHaveLength(3);
+        const cancelButton = screen.getByTestId(`cancel-delete-button-row-0-col-Delete-button`);
+
+        fireEvent.click(cancelButton);
+        
+        expect(screen.queryByTestId(`delete-modal`)).not.toBeInTheDocument();   
         const deleteButton = screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`);
         expect(deleteButton).toBeInTheDocument();
        
         fireEvent.click(deleteButton);
+
+        expect(await screen.findAllByTestId("delete-modal")).toHaveLength(3);
+        const confirmDeleteButton = screen.getByTestId(`confirm-delete-button-row-0-col-Delete-button`);
+
+        fireEvent.click(confirmDeleteButton);
 
         await waitFor(() => { expect(mockToast).toBeCalledWith("Commons with id 1 was deleted") });
     });
