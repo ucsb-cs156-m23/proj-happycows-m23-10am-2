@@ -51,6 +51,7 @@ describe("CommonsForm tests", () => {
       /Show Leaderboard\?/,
       /When below capacity/,
       /When above capacity/,
+      /Capacity Per User/,
 
     ].forEach(
       (pattern) => {
@@ -93,6 +94,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/Capacity Per User is required/i)).toBeInTheDocument();
 
     // check that each of the fields that has 
     // a validation error is marked as invalid
@@ -107,6 +109,7 @@ describe("CommonsForm tests", () => {
       "CommonsForm-startingDate",
       "CommonsForm-degradationRate",
       "CommonsForm-carryingCapacity",
+      "CommonsForm-capacityPerUser",
     ].forEach(
       (testid) => {
         const element = screen.getByTestId(testid);
@@ -170,6 +173,10 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
     await screen.findByText(/Carrying Capacity must be ≥ 1/i);
+
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "-1" } });
+    fireEvent.click(submitButton);
+    await screen.findByText(/Capacity Per User must be ≥ 1/i);
 
 
     expect(submitAction).not.toBeCalled();
