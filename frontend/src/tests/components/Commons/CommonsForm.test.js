@@ -104,7 +104,6 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(defaultValues.carryingCapacity);
 
 
-    //Reset back to empty fields
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "" } });
