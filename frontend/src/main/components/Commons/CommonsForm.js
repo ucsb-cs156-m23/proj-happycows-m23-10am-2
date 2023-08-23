@@ -24,16 +24,14 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
   const testid = "CommonsForm";
 
-  // Default Values for CommonsForm fields
   const curr = new Date();
   const today = curr.toISOString().substring(0, 10);
-  //const onemonthfromtoday = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().substring(0, 10);
 
   const defaultValues = {
     startingBalance: 10000,
     cowPrice: 100,
     milkPrice: 20,
-    degradationRate: 1.5,
+    degradationRate: 1.000,
     carryingCapacity: 100
   } 
 
@@ -59,7 +57,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Row>
 
       <Row>
-      <Col xs={12} md={8}>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3" >
         <Form.Label htmlFor="name">Commons Name</Form.Label>
         <Form.Control
@@ -74,9 +72,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         </Form.Control.Feedback>
       </Form.Group>
       </Col>
-      </Row>
 
-      <Row>
       <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
@@ -95,28 +91,6 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         />
         <Form.Control.Feedback type="invalid">
           {errors.startingBalance?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-      </Col>
-
-      <Col xs={6} md={4}>
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
-        <Form.Control
-          data-testid={`${testid}-cowPrice`}
-          id="cowPrice"
-          type="number"
-          step="0.01"
-          defaultValue={defaultValues.cowPrice}
-          isInvalid={!!errors.cowPrice}
-          {...register("cowPrice", {
-            valueAsNumber: true,
-            required: "Cow price is required",
-            min: {value: 0.01, message: "Cow price must be ≥ 0.01"},
-          })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.cowPrice?.message}
         </Form.Control.Feedback>
       </Form.Group>
       </Col>
@@ -144,25 +118,25 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         </Form.Control.Feedback>
       </Form.Group>
       </Col>
-
+      
       <Col xs={6} md={4}>
-      <Form.Group className="mb-3">  
-        <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
         <Form.Control
-          data-testid={`${testid}-startingDate`}
-          id="startingDate"
-          type="date"
-          defaultValue={today}
-          isInvalid={!!errors.startingDate}
-          {...register("startingDate", {
-            valueAsDate: true,
-            validate: {
-              isPresent: (v) => !isNaN(v) 
-            },
+          data-testid={`${testid}-cowPrice`}
+          id="cowPrice"
+          type="number"
+          step="0.01"
+          defaultValue={defaultValues.cowPrice}
+          isInvalid={!!errors.cowPrice}
+          {...register("cowPrice", {
+            valueAsNumber: true,
+            required: "Cow price is required",
+            min: {value: 0.01, message: "Cow price must be ≥ 0.01"},
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.startingDate?.message}
+          {errors.cowPrice?.message}
         </Form.Control.Feedback>
       </Form.Group>
       </Col>
@@ -213,10 +187,35 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Form.Group>
       </Col>
       </Row>
-
+      
+      <Row>
+      <Col xs={6} md={4}>
+      <Form.Group className="mb-3">  
+        <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-startingDate`}
+          id="startingDate"
+          type="date"
+          defaultValue={today}
+          isInvalid={!!errors.startingDate}
+          {...register("startingDate", {
+            valueAsDate: true,
+            validate: {
+              isPresent: (v) => !isNaN(v) 
+            },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.startingDate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      </Col>
+      </Row>
       <h4>
         Health update formula
       </h4>
+      <Row>
+        <Col xs={12} md={8}>
       <HealthUpdateStrategiesDropdown
         formName={"aboveCapacityHealthUpdateStrategy"}
         displayName={"When above capacity"}
@@ -224,6 +223,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register={register}
         healthUpdateStrategies={healthUpdateStrategies}
       />
+      </Col>
+      </Row>
+      <Row>
+      <Col xs={12} md={8}>
       <HealthUpdateStrategiesDropdown
         formName={"belowCapacityHealthUpdateStrategy"}
         displayName={"When below capacity"}
@@ -231,7 +234,8 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register={register}
         healthUpdateStrategies={healthUpdateStrategies}
       />
-
+      </Col>
+      </Row>
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>

@@ -104,7 +104,6 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(defaultValues.carryingCapacity);
 
 
-    //Reset back to empty fields
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "" } });
@@ -117,7 +116,6 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
     expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
 
-    //Reset to Invalid Values
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "-1" } });
@@ -127,7 +125,7 @@ describe("CommonsForm tests", () => {
 
     const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
     expect(milkPriceInput).toBeInTheDocument();
-    
+
     // check that each of the fields that has 
     // a validation error is marked as invalid
     // This helps with mutation coverage of code such as:
