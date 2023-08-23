@@ -111,6 +111,11 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    expect(await screen.findByText('Starting Balance is required')).toBeInTheDocument();
+    expect(screen.getByText('Cow price is required')).toBeInTheDocument();
+    expect(screen.getByText('Milk price is required')).toBeInTheDocument();
+    expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
+    expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
 
     //Reset to Invalid Values
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
@@ -120,6 +125,7 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
 
+    //expect(screen.getByText('Starting Date is required')).toBeInTheDocument();
     const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
     expect(milkPriceInput).toBeInTheDocument();
     // check that each of the fields that has 
