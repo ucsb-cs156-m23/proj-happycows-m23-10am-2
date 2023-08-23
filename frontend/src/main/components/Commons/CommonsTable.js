@@ -101,7 +101,6 @@ export default function CommonsTable({ commons, currentUser }) {
         show={show}
         onHide={handleClose}
         backdrop="static"
-        keyboard={false}
         data-testid="delete-modal"
     >
         <Modal.Header closeButton>
