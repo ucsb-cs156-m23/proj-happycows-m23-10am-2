@@ -27,7 +27,6 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
   // Default Values for CommonsForm fields
   const curr = new Date();
   const today = curr.toISOString().substring(0, 10);
-  //const onemonthfromtoday = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().substring(0, 10);
 
   const defaultValues = {
     startingBalance: 10000,
