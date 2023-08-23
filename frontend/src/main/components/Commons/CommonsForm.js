@@ -178,7 +178,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           id="capacityPerUser"
           type="number"
           step="1"
-          isInvalid={!!errors.carryingCapacity}
+          isInvalid={!!errors.capacityPerUser}
           {...register("capacityPerUser", {
             valueAsNumber: true,
             required: "Capacity Per User is required",
