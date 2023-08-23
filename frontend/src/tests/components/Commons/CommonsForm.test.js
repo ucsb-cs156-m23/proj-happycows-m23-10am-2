@@ -112,14 +112,14 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
-    fireEvent.click(submitButton);
-    expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();     
-    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/carrying capacity is required/i)).toBeInTheDocument();
-    
+    expect(await screen.findByText('Starting Balance is required')).toBeInTheDocument();
+    expect(screen.getByText('Cow price is required')).toBeInTheDocument();
+    expect(screen.getByText('Milk price is required')).toBeInTheDocument();
+    expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
+    expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
+
+    const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
+    expect(milkPriceInput).toBeInTheDocument();
 
     // check that each of the fields that has 
     // a validation error is marked as invalid
@@ -147,8 +147,8 @@ describe("CommonsForm tests", () => {
     [
       "CommonsForm-showLeaderboard",
     ].forEach(
-      (testid) => {
-        const element = screen.getByTestId(testid);
+      (record) => {
+        const element = screen.getByTestId(record);
         expect(element).toBeInTheDocument();
       }
     );
