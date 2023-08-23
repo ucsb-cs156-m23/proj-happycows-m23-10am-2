@@ -157,7 +157,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {...register("startingDate", {
             valueAsDate: true,
             validate: {
-              isPresent: (v) => !isNaN(v) || "Starting date is required",
+              isPresent: (v) => !isNaN(v) 
             },
           })}
         />
