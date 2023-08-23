@@ -18,7 +18,6 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
             accessor: 'totalWealth',
             //this is the func to  can return custom tableCell
             Cell : (props)=>{
-            //props.value will contain your date
                 const custom_wealth = '$'+props.value.toFixed(2)
                 return <span>{custom_wealth}</span>
             }
