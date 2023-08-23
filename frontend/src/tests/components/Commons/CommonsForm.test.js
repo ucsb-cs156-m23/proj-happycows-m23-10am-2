@@ -125,9 +125,9 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
 
-    //expect(screen.getByText('Starting Date is required')).toBeInTheDocument();
     const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
     expect(milkPriceInput).toBeInTheDocument();
+    
     // check that each of the fields that has 
     // a validation error is marked as invalid
     // This helps with mutation coverage of code such as:

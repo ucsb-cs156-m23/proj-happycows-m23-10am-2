@@ -146,7 +146,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Col>
 
       <Col xs={6} md={4}>
-      <Form.Group className="mb-3"> style 
+      <Form.Group className="mb-3">  
         <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
         <Form.Control
           data-testid={`${testid}-startingDate`}
@@ -157,7 +157,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {...register("startingDate", {
             valueAsDate: true,
             validate: {
-              isPresent: (v) => !isNaN(v) || "Starting date is required",
+              isPresent: (v) => !isNaN(v) 
             },
           })}
         />
