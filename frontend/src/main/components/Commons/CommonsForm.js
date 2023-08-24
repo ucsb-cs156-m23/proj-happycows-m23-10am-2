@@ -31,7 +31,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     startingBalance: 10000,
     cowPrice: 100,
     milkPrice: 20,
-    degradationRate: 1.000,
+    degradationRate: 1.5,
     carryingCapacity: 100
   } 
 
@@ -118,7 +118,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         </Form.Control.Feedback>
       </Form.Group>
       </Col>
-      
+
       <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
@@ -211,6 +211,30 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Form.Group>
       </Col>
       </Row>
+
+      <Row>
+      <Col xs={6} md={4}>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-capacityPerUser`}
+          id="capacityPerUser"
+          type="number"
+          step="1"
+          isInvalid={!!errors.capacityPerUser}
+          {...register("capacityPerUser", {
+            valueAsNumber: true,
+            required: "Capacity Per User is required",
+            min: {value: 1, message: "Capacity Per User must be ≥ 1"},
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.capacityPerUser?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      </Col>
+      </Row>
+
       <h4>
         Health update formula
       </h4>
