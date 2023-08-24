@@ -223,7 +223,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {...register("lastdayDate", {
             valueAsDate: true,
             validate: {
-              isPresent: (v) => !isNaN(v) || "Last day date is required",
+              isPresent: (v) => !isNaN(v)
             },
           })}
         />
