@@ -117,7 +117,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText('Milk price is required')).toBeInTheDocument();
     expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
     expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
-    expect(screen.getByText(/last day date is required/i)).toBeInTheDocument();
+    expect(screen.getByText('Last day date is required')).toBeInTheDocument();
 
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "-1" } });
