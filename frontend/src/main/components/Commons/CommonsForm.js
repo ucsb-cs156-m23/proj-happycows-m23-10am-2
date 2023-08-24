@@ -143,7 +143,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Row>
 
       <Row>
-      <Col xs={6} med={4}>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
         <Form.Control
