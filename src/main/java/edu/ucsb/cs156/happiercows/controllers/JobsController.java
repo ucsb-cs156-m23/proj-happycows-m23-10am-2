@@ -28,6 +28,7 @@ import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactorySingleCommons;
 import edu.ucsb.cs156.happiercows.jobs.SetCowHealthJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.TestJob;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactorySingleCommons;
 import edu.ucsb.cs156.happiercows.repositories.jobs.JobsRepository;
 import edu.ucsb.cs156.happiercows.services.jobs.JobContextConsumer;
 import edu.ucsb.cs156.happiercows.services.jobs.JobService;
@@ -48,6 +49,9 @@ public class JobsController extends ApiController {
 
     @Autowired
     UpdateCowHealthJobFactory updateCowHealthJobFactory;
+
+    @Autowired
+    UpdateCowHealthJobFactorySingleCommons updateCowHealthJobFactorySingleCommons;
 
     @Autowired
     MilkTheCowsJobFactory milkTheCowsJobFactory;
@@ -125,6 +129,17 @@ public class JobsController extends ApiController {
         JobContextConsumer updateCowHealthJob = updateCowHealthJobFactory.create();
         return jobService.runAsJob(updateCowHealthJob);
     }
+
+    @Operation(summary = "Launch Job to Update Cow Health (single commons only)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/launch/updatecowhealthsinglecommons")
+    public Job updateCowHealth(
+         @Parameter(name="commonsId") @RequestParam Long commonsId
+    ) { 
+        JobContextConsumer updateCowHealthJobSingleCommons = updateCowHealthJobFactorySingleCommons.create(commonsId);
+        return jobService.runAsJob(updateCowHealthJobSingleCommons);
+    }
+
 
     @Operation(summary = "Launch Job to Set Cow Health")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
