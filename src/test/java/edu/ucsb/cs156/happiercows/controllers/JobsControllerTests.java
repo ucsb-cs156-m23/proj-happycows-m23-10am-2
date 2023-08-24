@@ -45,8 +45,10 @@ import edu.ucsb.cs156.happiercows.services.jobs.JobService;
 import edu.ucsb.cs156.happiercows.jobs.InstructorReportJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.InstructorReportJobSingleCommonsFactory;
 import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.MilkTheCowsJobFactorySingleCommons;
 import edu.ucsb.cs156.happiercows.jobs.SetCowHealthJobFactory;
 import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactory;
+import edu.ucsb.cs156.happiercows.jobs.UpdateCowHealthJobFactorySingleCommons;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +72,9 @@ public class JobsControllerTests extends ControllerTestCase {
         ObjectMapper objectMapper;
 
         @MockBean
+        MilkTheCowsJobFactorySingleCommons milkTheCowsJobFactorySingleCommons;
+
+        @MockBean
         CommonsRepository commonsRepository;
 
         @MockBean
@@ -77,6 +82,9 @@ public class JobsControllerTests extends ControllerTestCase {
 
         @MockBean
         UpdateCowHealthJobFactory updateCowHealthJobFactory;
+
+        @MockBean
+        UpdateCowHealthJobFactorySingleCommons updateCowHealthJobFactorySingleCommons;
 
         @MockBean
         MilkTheCowsJobFactory milkTheCowsJobFactory;
@@ -252,6 +260,23 @@ public class JobsControllerTests extends ControllerTestCase {
 
                 assertNotNull(jobReturned.getStatus());
         }
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void admin_can_launch_milk_the_cows_job_single_commons() throws Exception {
+
+                // act
+                MvcResult response = mockMvc.perform(post("/api/jobs/launch/milkthecowjobsinglecommons?commonsId=1").with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                String responseString = response.getResponse().getContentAsString();
+                log.info("responseString={}", responseString);
+                Job jobReturned = objectMapper.readValue(responseString, Job.class);
+
+                assertNotNull(jobReturned.getStatus());
+        }
+
+
 
         @WithMockUser(roles = { "ADMIN" })
         @Test
@@ -273,6 +298,21 @@ public class JobsControllerTests extends ControllerTestCase {
         public void admin_can_launch_update_cow_health_job() throws Exception {
                 // act
                 MvcResult response = mockMvc.perform(post("/api/jobs/launch/updatecowhealth").with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                String responseString = response.getResponse().getContentAsString();
+                log.info("responseString={}", responseString);
+                Job jobReturned = objectMapper.readValue(responseString, Job.class);
+
+                assertNotNull(jobReturned.getStatus());
+        }
+
+        @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void admin_can_launch_update_cow_health_job_single_commons() throws Exception {
+                // act
+                MvcResult response = mockMvc.perform(post("/api/jobs/launch/updatecowhealthsinglecommons?commonsId=1").with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
