@@ -66,6 +66,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "lastdayDate": "2022-04-05T00:00:00",
             "degradationRate": 30.4,
             "carryingCapacity": 25,
+            "capacityPerUser": 26,
             "aboveCapacityHealthUpdateStrategy": "strat2",
             "belowCapacityHealthUpdateStrategy": "strat3",
             "showLeaderboard": false,
@@ -89,6 +90,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const lastdayDateField = screen.getByLabelText("Last Day Date");
         const degradationRateField = screen.getByLabelText("Degradation Rate");
         const carryingCapacityField = screen.getByLabelText("Carrying Capacity");
+        const capacityPerUserField = screen.getByLabelText("Capacity Per User");
         const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText("When above capacity");
         const belowCapacityHealthUpdateStrategyField = screen.getByLabelText("When below capacity");
         const showLeaderboardField = screen.getByLabelText("Show Leaderboard?");
@@ -102,6 +104,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(lastdayDateField, { target: { value: '2022-04-05' } })
         fireEvent.change(degradationRateField, { target: { value: '30.4' } })
         fireEvent.change(carryingCapacityField, { target: { value: '25' } })
+        fireEvent.change(capacityPerUserField, { target: { value: '26' } })
         fireEvent.change(showLeaderboardField, { target: { value: true } })
 
         fireEvent.change(aboveCapacityHealthUpdateStrategyField, { target: {value: 'strat2' } })
@@ -117,12 +120,13 @@ describe("AdminCreateCommonsPage tests", () => {
         const expectedCommons = {
             name: "My New Commons",
             startingBalance: 500,
-            cowPrice: 10,
             milkPrice: 5,
-            startingDate: '2022-03-05T00:00:00.000Z', // [1]
-            lastdayDate: '2022-04-05T00:00:00.000Z',
+            cowPrice: 10,
             degradationRate: 30.4,
             carryingCapacity: 25,
+            startingDate: '2022-03-05T00:00:00.000Z',  // [1]
+            lastdayDate: '2022-04-05T00:00:00.000Z',
+            capacityPerUser: 26,
             showLeaderboard: false,
             aboveCapacityHealthUpdateStrategy: "strat2",
             belowCapacityHealthUpdateStrategy: "strat3",
@@ -137,6 +141,7 @@ describe("AdminCreateCommonsPage tests", () => {
             <br />lastdayDate: 2022-04-05T00:00:00
             <br />cowPrice: 10
             <br />carryingCapacity: 25
+            <br />capacityPerUser: 26
         </div>);
 
         expect(mockedNavigate).toBeCalledWith({"to": "/"});

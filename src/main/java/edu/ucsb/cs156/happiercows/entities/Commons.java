@@ -29,9 +29,9 @@ public class Commons {
     private LocalDateTime startingDate;
     private LocalDateTime lastdayDate;
     private boolean showLeaderboard;
-
-    private int carryingCapacity;
     private double degradationRate;
+    private int carryingCapacity;
+    private int capacityPerUser;
 
     // these defaults match old behavior
     @Enumerated(EnumType.STRING)
@@ -48,4 +48,5 @@ public class Commons {
     @OneToMany(mappedBy = "commons", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<UserCommons> joinedUsers;
+
 }

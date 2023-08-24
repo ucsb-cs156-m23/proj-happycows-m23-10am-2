@@ -6,7 +6,6 @@ import commonsFixtures from "fixtures/commonsFixtures"
 import AxiosMockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import healthUpdateStrategyListFixtures from "fixtures/healthUpdateStrategyListFixtures";
-
 // Next line uses technique from https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
 import * as useBackendModule from "main/utils/useBackend";
 
@@ -52,6 +51,7 @@ describe("CommonsForm tests", () => {
       /Show Leaderboard\?/,
       /When below capacity/,
       /When above capacity/,
+      /Capacity Per User/,
 
     ].forEach(
       (pattern) => {
@@ -66,6 +66,15 @@ describe("CommonsForm tests", () => {
 
   it("has validation errors for required fields", async () => {
     const submitAction = jest.fn();
+    const curr = new Date();
+    const today = curr.toISOString().substring(0, 10);
+    const defaultValues = {
+      startingBalance: 10000,
+      cowPrice: 100,
+      milkPrice: 20,
+      degradationRate: 1.5,
+      carryingCapacity: 100
+    } 
 
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
@@ -88,13 +97,37 @@ describe("CommonsForm tests", () => {
 
     fireEvent.click(submitButton);
     expect(await screen.findByText(/commons name is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting balance is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+
+    expect(screen.getByTestId("CommonsForm-startingBalance")).toHaveValue(defaultValues.startingBalance);
+    expect(screen.getByTestId("CommonsForm-cowPrice")).toHaveValue(defaultValues.cowPrice);
+    expect(screen.getByTestId("CommonsForm-milkPrice")).toHaveValue(defaultValues.milkPrice);
+    expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(today);
+    expect(screen.getByTestId("CommonsForm-degradationRate")).toHaveValue(defaultValues.degradationRate);
+    expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(defaultValues.carryingCapacity);
+
+
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    expect(await screen.findByText('Starting Balance is required')).toBeInTheDocument();
+    expect(screen.getByText('Cow price is required')).toBeInTheDocument();
+    expect(screen.getByText('Milk price is required')).toBeInTheDocument();
+    expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
+    expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
     expect(screen.getByText(/last day date is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
-    expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
+    fireEvent.click(submitButton);
+
+    const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
+    expect(milkPriceInput).toBeInTheDocument();
 
     // check that each of the fields that has 
     // a validation error is marked as invalid
@@ -110,9 +143,10 @@ describe("CommonsForm tests", () => {
       "CommonsForm-lastdayDate",
       "CommonsForm-degradationRate",
       "CommonsForm-carryingCapacity",
+      "CommonsForm-capacityPerUser",
     ].forEach(
-      (testid) => {
-        const element = screen.getByTestId(testid);
+      (record) => {
+        const element = screen.getByTestId(record);
         expect(element).toBeInTheDocument();
         expect(element).toHaveClass("is-invalid");
       }
@@ -168,11 +202,15 @@ describe("CommonsForm tests", () => {
 
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
-    await screen.findByText(/Degradation rate must be ≥ 0.00/i);
+    await screen.findByText(/Degradation rate must be ≥ 0.000/i);
 
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
     await screen.findByText(/Carrying Capacity must be ≥ 1/i);
+
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "-1" } });
+    fireEvent.click(submitButton);
+    await screen.findByText(/Capacity Per User must be ≥ 1/i);
 
 
     expect(submitAction).not.toBeCalled();

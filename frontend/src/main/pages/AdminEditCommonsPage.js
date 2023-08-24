@@ -37,6 +37,7 @@ export default function CommonsEditPage() {
         "lastdayDate": commons.lastdayDate,
         "degradationRate": commons.degradationRate,
         "carryingCapacity": commons.carryingCapacity,
+        "capacityPerUser": commons.capacityPerUser,
         "aboveCapacityHealthUpdateStrategy": commons.aboveCapacityHealthUpdateStrategy,
         "belowCapacityHealthUpdateStrategy": commons.belowCapacityHealthUpdateStrategy,
         "showLeaderboard": commons.showLeaderboard,

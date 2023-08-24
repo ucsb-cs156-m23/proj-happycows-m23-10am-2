@@ -12,6 +12,7 @@ const commonsPlusFixtures = {
                 "degradationRate": 0.01,
                 "showLeaderboard": false,
                 "carryingCapacity": 100,
+                "capacityPerUser": 105,
             },
             "totalCows": 10,
             "totalUsers": 2
@@ -29,6 +30,7 @@ const commonsPlusFixtures = {
                 "degradationRate": 0.01,
                 "showLeaderboard": true,
                 "carryingCapacity": 42,
+                "capacityPerUser": 110,
             },
             "totalCows": 0,
             "totalUsers": 1
@@ -46,6 +48,7 @@ const commonsPlusFixtures = {
                 "degradationRate": 5.0,
                 "showLeaderboard": true,
                 "carryingCapacity": 123,
+                "capacityPerUser": 115,
             },
             "totalCows": 0,
             "totalUsers": 1
@@ -66,6 +69,7 @@ const commonsPlusFixtures = {
                 "degradationRate": 3.0,
                 "showLeaderboard": false,
                 "carryingCapacity": 23,
+                "capacityPerUser": 120,
             },
             "totalCows": 0,
             "totalUsers": 0

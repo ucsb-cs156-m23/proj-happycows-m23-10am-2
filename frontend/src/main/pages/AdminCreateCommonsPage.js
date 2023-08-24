@@ -22,6 +22,7 @@ const AdminCreateCommonsPage = () => {
             <br />{`lastdayDate: ${commons.lastdayDate}`}
             <br />{`cowPrice: ${commons.cowPrice}`}
             <br />{`carryingCapacity: ${commons.carryingCapacity}`}
+            <br />{`capacityPerUser: ${commons.capacityPerUser}`}
         </div>);
     }
    
