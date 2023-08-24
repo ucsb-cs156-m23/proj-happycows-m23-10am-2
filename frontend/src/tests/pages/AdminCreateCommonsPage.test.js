@@ -117,8 +117,8 @@ describe("AdminCreateCommonsPage tests", () => {
         const expectedCommons = {
             name: "My New Commons",
             startingBalance: 500,
-            cowPrice: 10,
             milkPrice: 5,
+            cowPrice: 10,
             degradationRate: 30.4,
             carryingCapacity: 25,
             startingDate: '2022-03-05T00:00:00.000Z',  // [1]
