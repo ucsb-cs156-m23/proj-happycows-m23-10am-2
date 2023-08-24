@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
