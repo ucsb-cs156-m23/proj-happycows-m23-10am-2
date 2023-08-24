@@ -25,5 +25,6 @@ public class CommonStats {
     private long commonsId;
     private int numCows;
     private double avgHealth;
+    @CreatedDate
     private LocalDateTime timestamp;
 }
