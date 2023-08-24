@@ -66,6 +66,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
                 .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
                 .build();
@@ -79,6 +80,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant.name())
                 .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear.name())
                 .build();
@@ -117,6 +119,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -128,6 +131,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         // don't include null values to simulate old frontend
@@ -167,6 +171,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -178,6 +183,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         String requestBody = objectMapper.writeValueAsString(parameters);
@@ -213,6 +219,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .startingDate(someTime)
                 .degradationRate(-8.49)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
@@ -223,6 +230,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .startingDate(someTime)
                 .degradationRate(-8.49)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         String requestBody = objectMapper.writeValueAsString(parameters);
@@ -273,6 +281,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant.name())
                 .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear.name())
                 .build();
@@ -286,6 +295,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
                 .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
                 .build();
@@ -312,6 +322,8 @@ public class CommonsControllerTests extends ControllerTestCase {
         commons.setShowLeaderboard(parameters.getShowLeaderboard());
         parameters.setCarryingCapacity(123);
         commons.setCarryingCapacity(parameters.getCarryingCapacity());
+        parameters.setCapacityPerUser(124);
+        commons.setCapacityPerUser(parameters.getCapacityPerUser());
         parameters.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear.name());
         commons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
         parameters.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop.name());
@@ -349,6 +361,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         Commons commons = Commons.builder()
@@ -360,6 +373,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
                 .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
                 .build();
@@ -401,6 +415,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         Commons commons = Commons.builder()
@@ -412,6 +427,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         String requestBody = objectMapper.writeValueAsString(parameters);
@@ -434,6 +450,8 @@ public class CommonsControllerTests extends ControllerTestCase {
         commons.setDegradationRate(parameters.getDegradationRate());
         parameters.setCarryingCapacity(123);
         commons.setCarryingCapacity(parameters.getCarryingCapacity());
+        parameters.setCapacityPerUser(124);
+        commons.setCapacityPerUser(parameters.getCapacityPerUser());
 
         requestBody = objectMapper.writeValueAsString(parameters);
 
@@ -467,6 +485,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         Commons commons = Commons.builder()
@@ -478,6 +497,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         String requestBody = objectMapper.writeValueAsString(parameters);
@@ -718,6 +738,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
+                .capacityPerUser(105)
                 .build();
 
         when(commonsRepository.findById(eq(2L))).thenReturn(Optional.of(c));

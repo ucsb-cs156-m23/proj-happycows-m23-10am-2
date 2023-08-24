@@ -234,7 +234,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Form.Group>
       </Col>
       </Row>
-          
+
       <h4>
         Health update formula
       </h4>

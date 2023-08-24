@@ -18,7 +18,7 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
             accessor: 'totalWealth',
             Cell : (props)=>{
                 const custom_wealth = '$'+props.value.toFixed(2)
-                return <span>{custom_wealth}</span>
+                return <div style={{textAlign: "right"}}>{custom_wealth}</div>
             }
         },
         {
