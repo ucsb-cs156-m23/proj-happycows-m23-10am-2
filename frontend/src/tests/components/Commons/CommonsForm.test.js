@@ -112,6 +112,7 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-lastdayDate"), { target: { value: NaN } });
     expect(await screen.findByText('Starting Balance is required')).toBeInTheDocument();
     expect(screen.getByText('Cow price is required')).toBeInTheDocument();
     expect(screen.getByText('Milk price is required')).toBeInTheDocument();
