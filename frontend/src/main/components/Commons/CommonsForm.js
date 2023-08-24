@@ -213,7 +213,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Row>
 
       <Row>
-      <Col>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
         <Form.Control
