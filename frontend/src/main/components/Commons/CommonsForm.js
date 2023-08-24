@@ -134,6 +134,25 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Form.Group>
 
       <Form.Group className="mb-3">
+        <Form.Label htmlFor="lastdayDate">Last Day Date</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-lastdayDate`}
+          id="lastdayDate"
+          type="date"
+          isInvalid={!!errors.lastdayDate}
+          {...register("lastdayDate", {
+            valueAsDate: true,
+            validate: {
+              isPresent: (v) => !isNaN(v) || "Last day date is required",
+            },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.lastdayDate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group className="mb-3">
         <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
         <Form.Control
           data-testid={`${testid}-degradationRate`}

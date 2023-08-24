@@ -46,6 +46,7 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
+      /Last Day Date/,
       /Degradation Rate/,
       /Carrying Capacity/,
       /Show Leaderboard\?/,
@@ -91,6 +92,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByText(/cow price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/milk price is required/i)).toBeInTheDocument();
     expect(screen.getByText(/starting date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/last day date is required/i)).toBeInTheDocument();
     expect(screen.getByText(/degradation rate is required/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrying capacity is required/i)).toBeInTheDocument();
 
@@ -105,6 +107,7 @@ describe("CommonsForm tests", () => {
       "CommonsForm-cowPrice",
       "CommonsForm-milkPrice",
       "CommonsForm-startingDate",
+      "CommonsForm-lastdayDate",
       "CommonsForm-degradationRate",
       "CommonsForm-carryingCapacity",
     ].forEach(

@@ -46,6 +46,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Seths Common",
                 "startingDate": "2022-03-05",
+                "lastdayDate": "2022-04-05",
                 "startingBalance": 1200,
                 "cowPrice": 15,
                 "milkPrice": 10,
@@ -59,6 +60,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Phill's Commons",
                 "startingDate": "2022-03-07",
+                "lastdayDate": "2022-04-07",
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5,
@@ -97,6 +99,7 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastdayDateField = screen.getByLabelText(/Last Day Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
             const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText(/When above capacity/);
@@ -105,6 +108,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastdayDateField).toHaveValue("2022-04-05");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -131,6 +135,7 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastdayDateField = screen.getByLabelText(/Last Day Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
             const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText(/When above capacity/);
@@ -139,6 +144,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             expect(nameField).toHaveValue("Seths Common");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastdayDateField).toHaveValue("2022-04-05");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -154,6 +160,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             fireEvent.change(nameField, { target: { value: "Phill's Commons" } })
             fireEvent.change(startingDateField, { target: { value: "2022-03-07" } })
+            fireEvent.change(lastdayDateField, { target: { value: "2022-04-07" } })
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
@@ -177,6 +184,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "cowPrice": 200,
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z",
+                "lastdayDate": "2022-04-07T00:00:00.000Z",
                 "degradationRate": 40.3,
                 "carryingCapacity": 200,
                 "aboveCapacityHealthUpdateStrategy": "strat2",

@@ -63,6 +63,7 @@ describe("AdminCreateCommonsPage tests", () => {
             "milkPrice": 5,
             "startingBalance": 500,
             "startingDate": "2022-03-05T00:00:00",
+            "lastdayDate": "2022-04-05T00:00:00",
             "degradationRate": 30.4,
             "carryingCapacity": 25,
             "aboveCapacityHealthUpdateStrategy": "strat2",
@@ -85,6 +86,7 @@ describe("AdminCreateCommonsPage tests", () => {
         const cowPriceField = screen.getByLabelText("Cow Price");
         const milkPriceField = screen.getByLabelText("Milk Price");
         const startDateField = screen.getByLabelText("Starting Date");
+        const lastdayDateField = screen.getByLabelText("Last Day Date");
         const degradationRateField = screen.getByLabelText("Degradation Rate");
         const carryingCapacityField = screen.getByLabelText("Carrying Capacity");
         const aboveCapacityHealthUpdateStrategyField = screen.getByLabelText("When above capacity");
@@ -97,6 +99,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(cowPriceField, { target: { value: '10' } })
         fireEvent.change(milkPriceField, { target: { value: '5' } })
         fireEvent.change(startDateField, { target: { value: '2022-03-05' } })
+        fireEvent.change(lastdayDateField, { target: { value: '2022-04-05' } })
         fireEvent.change(degradationRateField, { target: { value: '30.4' } })
         fireEvent.change(carryingCapacityField, { target: { value: '25' } })
         fireEvent.change(showLeaderboardField, { target: { value: true } })
@@ -117,6 +120,7 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             startingDate: '2022-03-05T00:00:00.000Z', // [1]
+            lastdayDate: '2022-04-05T00:00:00.000Z',
             degradationRate: 30.4,
             carryingCapacity: 25,
             showLeaderboard: false,
@@ -130,6 +134,7 @@ describe("AdminCreateCommonsPage tests", () => {
             <br />id: 5
             <br />name: My New Commons
             <br />startDate: 2022-03-05T00:00:00
+            <br />lastdayDate: 2022-04-05T00:00:00
             <br />cowPrice: 10
             <br />carryingCapacity: 25
         </div>);
