@@ -228,7 +228,7 @@ public class CommonsController extends ApiController {
 
         userCommonsRepository.save(uc);
 
-        //#8
+        
         joinedCommons.setNumUsers(joinedCommons.getNumUsers() + 1);
         commonsRepository.save(joinedCommons);
 
@@ -267,7 +267,6 @@ public class CommonsController extends ApiController {
 
         String responseString = String.format("user with id %d deleted from commons with id %d, %d users remain", userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));
 
-        //#8
         Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);
         exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);
         commonsRepository.save(exitedCommon);
