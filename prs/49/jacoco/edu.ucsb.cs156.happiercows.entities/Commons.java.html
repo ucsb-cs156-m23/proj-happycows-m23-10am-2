@@ -46,13 +46,12 @@ public class Commons {
     @JsonIgnore
     private List&lt;UserCommons&gt; joinedUsers;
 
-    //#8
     @JsonIgnore
     private int numUsers;
 
     @JsonGetter(&quot;effectiveCapacity&quot;)
     public int getEffectiveCapacity() {
-<span class="fc" id="L55">        return Math.max(capacityPerUser * numUsers, carryingCapacity);</span>
+<span class="fc" id="L54">        return Math.max(capacityPerUser * numUsers, carryingCapacity);</span>
     }
 
 }

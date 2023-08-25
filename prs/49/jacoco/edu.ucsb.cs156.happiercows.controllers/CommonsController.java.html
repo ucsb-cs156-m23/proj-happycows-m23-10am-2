@@ -226,7 +226,7 @@ import java.util.stream.Collectors;
 
 <span class="fc" id="L227">        userCommonsRepository.save(uc);</span>
 
-        //#8
+        
 <span class="fc" id="L230">        joinedCommons.setNumUsers(joinedCommons.getNumUsers() + 1);</span>
 <span class="fc" id="L231">        commonsRepository.save(joinedCommons);</span>
 
@@ -265,23 +265,22 @@ import java.util.stream.Collectors;
 
 <span class="fc" id="L266">        String responseString = String.format(&quot;user with id %d deleted from commons with id %d, %d users remain&quot;, userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));</span>
 
-        //#8
-<span class="fc" id="L269">        Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);</span>
-<span class="fc" id="L270">        exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);</span>
-<span class="fc" id="L271">        commonsRepository.save(exitedCommon);</span>
+<span class="fc" id="L268">        Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);</span>
+<span class="fc" id="L269">        exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);</span>
+<span class="fc" id="L270">        commonsRepository.save(exitedCommon);</span>
 
-<span class="fc" id="L273">        return genericMessage(responseString);</span>
+<span class="fc" id="L272">        return genericMessage(responseString);</span>
     }
 
     public CommonsPlus toCommonsPlus(Commons c) {
-<span class="fc" id="L277">        Optional&lt;Integer&gt; numCows = commonsRepository.getNumCows(c.getId());</span>
-<span class="fc" id="L278">        Optional&lt;Integer&gt; numUsers = commonsRepository.getNumUsers(c.getId());</span>
+<span class="fc" id="L276">        Optional&lt;Integer&gt; numCows = commonsRepository.getNumCows(c.getId());</span>
+<span class="fc" id="L277">        Optional&lt;Integer&gt; numUsers = commonsRepository.getNumUsers(c.getId());</span>
 
-<span class="fc" id="L280">        return CommonsPlus.builder()</span>
-<span class="fc" id="L281">                .commons(c)</span>
-<span class="fc" id="L282">                .totalCows(numCows.orElse(0))</span>
-<span class="fc" id="L283">                .totalUsers(numUsers.orElse(0))</span>
-<span class="fc" id="L284">                .build();</span>
+<span class="fc" id="L279">        return CommonsPlus.builder()</span>
+<span class="fc" id="L280">                .commons(c)</span>
+<span class="fc" id="L281">                .totalCows(numCows.orElse(0))</span>
+<span class="fc" id="L282">                .totalUsers(numUsers.orElse(0))</span>
+<span class="fc" id="L283">                .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
