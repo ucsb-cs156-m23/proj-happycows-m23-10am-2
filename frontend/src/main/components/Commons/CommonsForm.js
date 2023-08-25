@@ -32,7 +32,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     startingBalance: 10000,
     cowPrice: 100,
     milkPrice: 20,
-    degradationRate: 1.5,
+    degradationRate: 0.003,
     carryingCapacity: 100,
     capacityPerUser: 10
   } 
