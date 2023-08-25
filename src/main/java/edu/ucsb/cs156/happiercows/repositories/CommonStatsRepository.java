@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommonStatsRepository extends CrudRepository<CommonStats, Long> {
-    
+    Iterable<CommonStats> findAllByCommonsId(long commonsId);
 }
