@@ -27,6 +27,7 @@ public class Commons {
     private double milkPrice;
     private double startingBalance;
     private LocalDateTime startingDate;
+    private LocalDateTime lastdayDate;
     private boolean showLeaderboard;
     private double degradationRate;
     private int carryingCapacity;
@@ -40,6 +41,9 @@ public class Commons {
     @Builder.Default
     private CowHealthUpdateStrategies aboveCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_ABOVE_CAPACITY;
 
+    public boolean gameInProgress() {
+        return (startingDate.isBefore(LocalDateTime.now()) && lastdayDate.isAfter(LocalDateTime.now()));
+    }
 
     @OneToMany(mappedBy = "commons", cascade = CascadeType.REMOVE)
     @JsonIgnore
