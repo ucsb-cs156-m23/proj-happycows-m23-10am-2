@@ -51,7 +51,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": true,
                 "carryingCapacity": 123,
                 "capacityPerUser": 115,
-                "effectiveCapacity": 115,
+                "effectiveCapacity": 123,
             },
             "totalCows": 0,
             "totalUsers": 1
@@ -73,7 +73,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": false,
                 "carryingCapacity": 23,
                 "capacityPerUser": 120,
-                "effectiveCapacity": 0,
+                "effectiveCapacity": 23,
             },
             "totalCows": 0,
             "totalUsers": 0
