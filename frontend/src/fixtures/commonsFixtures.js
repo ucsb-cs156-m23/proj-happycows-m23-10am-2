@@ -55,28 +55,26 @@ const commonsFixtures = {
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }
     ],
-    oneCommons:
-        [
-            {
-                "id": 1,
-                "name": "Anika's Commons",
-                "day": 5,
-                "startingDate": "2025-03-05T15:50:10",
-                "lastdayDate": "2025-04-05T15:50:10",
-                "startingBalance": 2000.50,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "milkPrice": 10,
-                "degradationRate": .5,
-                "showLeaderboard": true,
-                "carryingCapacity": 314,
-                "capacityPerUser": 120,
-                "effectiveCapacity": 1200,
-                "belowCapacityHealthUpdateStrategy": "Constant",
-                "aboveCapacityHealthUpdateStrategy": "Linear"
-            }
-        ],
-
+    oneCommons: [
+        {
+            "id": 1,
+            "name": "Anika's Commons",
+            "day": 5,
+            "startingDate": "2025-03-05T15:50:10",
+            "lastdayDate": "2025-04-05T15:50:10",
+            "startingBalance": 2000.50,
+            "totalPlayers": 50,
+            "cowPrice": 15,
+            "milkPrice": 10,
+            "degradationRate": .5,
+            "showLeaderboard": true,
+            "carryingCapacity": 314,
+            "capacityPerUser": 120,
+            "effectiveCapacity": 1200,
+            "belowCapacityHealthUpdateStrategy": "Constant",
+            "aboveCapacityHealthUpdateStrategy": "Linear"
+        }
+    ],
     sevenCommons: [
         {
             "id": 10,
