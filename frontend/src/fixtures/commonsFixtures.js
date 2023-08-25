@@ -14,6 +14,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 105,
+            "effectiveCapacity": 1050,
             "belowCapacityHealthUpdateStrategy": "Noop",
             "aboveCapacityHealthUpdateStrategy": "Noop"
         },
@@ -31,6 +32,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 123,
             "capacityPerUser": 110,
+            "effectiveCapacity": 1100,
             "belowCapacityHealthUpdateStrategy": "Linear",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -48,6 +50,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 42,
             "capacityPerUser": 115,
+            "effectiveCapacity": 1150,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }
@@ -68,6 +71,7 @@ const commonsFixtures = {
                 "showLeaderboard": true,
                 "carryingCapacity": 314,
                 "capacityPerUser": 120,
+                "effectiveCapacity": 1200,
                 "belowCapacityHealthUpdateStrategy": "Constant",
                 "aboveCapacityHealthUpdateStrategy": "Linear"
             }
@@ -84,6 +88,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 125,
+            "effectiveCapacity": 1250,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -97,6 +102,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 130,
+            "effectiveCapacity": 1300,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -110,6 +116,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 135,
+            "effectiveCapacity": 1350,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -123,6 +130,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 140,
+            "effectiveCapacity": 1400,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -136,6 +144,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 145,
+            "effectiveCapacity": 1450,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -149,6 +158,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 150,
+            "effectiveCapacity": 1500,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -162,6 +172,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 155,
+            "effectiveCapacity": 1550,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }

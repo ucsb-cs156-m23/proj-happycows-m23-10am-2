@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
+
+import org.hibernate.cfg.JoinedSubclassFkSecondPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -226,6 +228,10 @@ public class CommonsController extends ApiController {
 
         userCommonsRepository.save(uc);
 
+        //#8
+        joinedCommons.setNumUsers(joinedCommons.getNumUsers() + 1);
+        commonsRepository.save(joinedCommons);
+
         String body = mapper.writeValueAsString(joinedCommons);
         return ResponseEntity.ok().body(body);
     }
@@ -260,6 +266,11 @@ public class CommonsController extends ApiController {
         userCommonsRepository.delete(userCommons);
 
         String responseString = String.format("user with id %d deleted from commons with id %d, %d users remain", userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));
+
+        //#8
+        Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);
+        exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);
+        commonsRepository.save(exitedCommon);
 
         return genericMessage(responseString);
     }

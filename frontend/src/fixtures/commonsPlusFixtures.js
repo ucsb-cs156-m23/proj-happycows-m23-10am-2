@@ -13,6 +13,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": false,
                 "carryingCapacity": 100,
                 "capacityPerUser": 105,
+                "effectiveCapacity": 210,
             },
             "totalCows": 10,
             "totalUsers": 2
@@ -31,6 +32,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": true,
                 "carryingCapacity": 42,
                 "capacityPerUser": 110,
+                "effectiveCapacity": 110,
             },
             "totalCows": 0,
             "totalUsers": 1
@@ -49,6 +51,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": true,
                 "carryingCapacity": 123,
                 "capacityPerUser": 115,
+                "effectiveCapacity": 123,
             },
             "totalCows": 0,
             "totalUsers": 1
@@ -70,6 +73,7 @@ const commonsPlusFixtures = {
                 "showLeaderboard": false,
                 "carryingCapacity": 23,
                 "capacityPerUser": 120,
+                "effectiveCapacity": 23,
             },
             "totalCows": 0,
             "totalUsers": 0
