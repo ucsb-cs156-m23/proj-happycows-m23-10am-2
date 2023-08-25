@@ -30,7 +30,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -859,4 +861,71 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(actualCommonsPlus, expectedCommonsPlus);
     }
 
+    //#8 part 2 (effectiveCapacity)
+    //When carryingCapacity > capacityPerUse * numUsers : should return carryingCapacity
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void effectiveCapacityReturnsCarryingCapacity() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+        Commons c = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .carryingCapacity(100)
+                .capacityPerUser(1)
+                .build();
+
+        c.setNumUsers(99);
+
+        assertEquals(c.getEffectiveCapacity(), 100);
+    }
+
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void effectiveCapacityReturnsCapacityPerUser() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+         Commons c = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .carryingCapacity(100)
+                .capacityPerUser(1)
+                .build();
+
+        c.setNumUsers(101);
+
+        assertEquals(c.getEffectiveCapacity(), 101);
+    }
+
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    public void testCommonsReturnsCarryingCapacityWhenNoUsers() throws Exception {
+        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+
+       Commons c = Commons.builder()
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(someTime)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .carryingCapacity(100)
+                .capacityPerUser(200)
+                .build();
+
+
+        assertEquals(c.getEffectiveCapacity(), 100);
+    }
+      
 }
