@@ -12,6 +12,7 @@ import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
 import edu.ucsb.cs156.happiercows.services.jobs.JobContext;
 import edu.ucsb.cs156.happiercows.services.jobs.JobContextConsumer;
+import edu.ucsb.cs156.happiercows.services.AverageCowHealthService;
 
 import edu.ucsb.cs156.happiercows.entities.CommonStats;
 import edu.ucsb.cs156.happiercows.repositories.CommonStatsRepository;
