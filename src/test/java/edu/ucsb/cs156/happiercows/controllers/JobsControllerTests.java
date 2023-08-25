@@ -78,6 +78,9 @@ public class JobsControllerTests extends ControllerTestCase {
         @MockBean
         UserCommonsRepository userCommonsRepository;
 
+        @MockBean 
+        CommonStatsRepository CommonStatsRepository;
+
         @MockBean
         UpdateCowHealthJobFactory updateCowHealthJobFactory;
 
@@ -92,6 +95,9 @@ public class JobsControllerTests extends ControllerTestCase {
 
         @MockBean
         InstructorReportJobSingleCommonsFactory instructorReportJobSingleCommonsFactory;
+
+        @MockBean
+        CommonStatsJobFactory commonStatsJobFactory;
 
         @WithMockUser(roles = { "ADMIN" })
         @Test
