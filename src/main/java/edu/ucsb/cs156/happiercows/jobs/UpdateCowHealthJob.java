@@ -29,6 +29,10 @@ public class UpdateCowHealthJob implements JobContextConsumer {
         Iterable<Commons> allCommons = commonsRepository.findAll();
 
         for (Commons commons : allCommons) {
+            if (!commons.gameInProgress()) {
+                ctx.log("Skipping Cow Health Update at Commons: " + commons.getName() + " because game is not in progress");
+                continue;
+            }
             ctx.log("Commons " + commons.getName() + ", degradationRate: " + commons.getDegradationRate() + ", carryingCapacity: " + commons.getCarryingCapacity());
             int numUsers = commonsRepository.getNumUsers(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumUsers(" + commons.getId() + ")"));
 
