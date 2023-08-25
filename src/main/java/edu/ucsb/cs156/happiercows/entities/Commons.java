@@ -46,7 +46,6 @@ public class Commons {
     @JsonIgnore
     private List<UserCommons> joinedUsers;
 
-    //#8
     @JsonIgnore
     private int numUsers;
 

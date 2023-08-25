@@ -799,7 +799,6 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .numOfCows(1)
                 .build();
 
-        //simulating the user being in the common already
         c.setNumUsers(1);
         
         String requestBody = mapper.writeValueAsString(uc);
@@ -866,8 +865,6 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(actualCommonsPlus, expectedCommonsPlus);
     }
 
-    //#8 part 2 (effectiveCapacity)
-    //When carryingCapacity > capacityPerUse * numUsers : should return carryingCapacity
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void effectiveCapacityReturnsCarryingCapacity() throws Exception {
