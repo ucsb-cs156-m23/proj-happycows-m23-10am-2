@@ -1,4 +1,4 @@
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Row, Col} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import {useBackend} from "main/utils/useBackend";
 
@@ -24,11 +24,23 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
   const testid = "CommonsForm";
 
+  const curr = new Date();
+  const today = curr.toISOString().substring(0, 10);
+
+  const defaultValues = {
+    startingBalance: 10000,
+    cowPrice: 100,
+    milkPrice: 20,
+    degradationRate: 1.5,
+    carryingCapacity: 100
+  } 
+
   const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
   const aboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
   
   return (
     <Form onSubmit={handleSubmit(submitAction)}>
+      <Row>
       {initialCommons && (
         <Form.Group className="mb-3">
           <Form.Label htmlFor="id">Id</Form.Label>
@@ -42,8 +54,11 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           />
         </Form.Group>
       )}
+      </Row>
 
-      <Form.Group className="mb-3">
+      <Row>
+      <Col xs={6} md={4}>
+      <Form.Group className="mb-3" >
         <Form.Label htmlFor="name">Commons Name</Form.Label>
         <Form.Control
           data-testid={`${testid}-name`}
@@ -56,7 +71,9 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {errors.name?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
 
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
         <Form.Control
@@ -64,6 +81,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           data-testid={`${testid}-startingBalance`}
           type="number"
           step="0.01"
+          defaultValue={defaultValues.startingBalance}
           isInvalid={!!errors.startingBalance}
           {...register("startingBalance", {
             valueAsNumber: true,
@@ -75,26 +93,11 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {errors.startingBalance?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
+      </Row>
 
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
-        <Form.Control
-          data-testid={`${testid}-cowPrice`}
-          id="cowPrice"
-          type="number"
-          step="0.01"
-          isInvalid={!!errors.cowPrice}
-          {...register("cowPrice", {
-            valueAsNumber: true,
-            required: "Cow price is required",
-            min: {value: 0.01, message: "Cow price must be ≥ 0.01"},
-          })}
-        />
-        <Form.Control.Feedback type="invalid">
-          {errors.cowPrice?.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-
+      <Row>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
         <Form.Control
@@ -102,6 +105,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           id="milkPrice"
           type="number"
           step="0.01"
+          defaultValue={defaultValues.milkPrice}
           isInvalid={!!errors.milkPrice}
           {...register("milkPrice", {
             valueAsNumber: true,
@@ -113,45 +117,55 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {errors.milkPrice?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
 
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
+        <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
         <Form.Control
-          data-testid={`${testid}-startingDate`}
-          id="startingDate"
-          type="date"
-          isInvalid={!!errors.startingDate}
-          {...register("startingDate", {
-            valueAsDate: true,
-            validate: {
-              isPresent: (v) => !isNaN(v) || "Starting date is required",
-            },
+          data-testid={`${testid}-cowPrice`}
+          id="cowPrice"
+          type="number"
+          step="0.01"
+          defaultValue={defaultValues.cowPrice}
+          isInvalid={!!errors.cowPrice}
+          {...register("cowPrice", {
+            valueAsNumber: true,
+            required: "Cow price is required",
+            min: {value: 0.01, message: "Cow price must be ≥ 0.01"},
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.startingDate?.message}
+          {errors.cowPrice?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
+      </Row>
 
+      <Row>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
         <Form.Control
           data-testid={`${testid}-degradationRate`}
           id="degradationRate"
           type="number"
-          step="0.01"
+          step="0.001"
+          defaultValue={defaultValues.degradationRate}
           isInvalid={!!errors.degradationRate}
           {...register("degradationRate", {
             valueAsNumber: true,
             required: "Degradation rate is required",
-            min: {value: 0.00, message: "Degradation rate must be ≥ 0.00"},
+            min: {value: 0.000, message: "Degradation rate must be ≥ 0.000"},
           })}
         />
         <Form.Control.Feedback type="invalid">
           {errors.degradationRate?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
 
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="carryingCapacity">Carrying Capacity</Form.Label>
         <Form.Control
@@ -159,6 +173,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           id="carryingCapacity"
           type="number"
           step="1"
+          defaultValue={defaultValues.carryingCapacity}
           isInvalid={!!errors.carryingCapacity}
           {...register("carryingCapacity", {
             valueAsNumber: true,
@@ -170,7 +185,37 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {errors.carryingCapacity?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
+      </Row>
 
+
+      <Row>
+      <Col xs={6} md={4}>
+      <Form.Group className="mb-3">  
+        <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
+        <Form.Control
+          data-testid={`${testid}-startingDate`}
+          id="startingDate"
+          type="date"
+          defaultValue={today}
+          isInvalid={!!errors.startingDate}
+          {...register("startingDate", {
+            valueAsDate: true,
+            validate: {
+              isPresent: (v) => !isNaN(v) 
+            },
+          })}
+        />
+        <Form.Control.Feedback type="invalid">
+          {errors.startingDate?.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      </Col>
+      </Row>
+
+
+      <Row>
+      <Col xs={6} md={4}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
         <Form.Control
@@ -189,10 +234,14 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           {errors.capacityPerUser?.message}
         </Form.Control.Feedback>
       </Form.Group>
+      </Col>
+      </Row>
 
       <h4>
         Health update formula
       </h4>
+      <Row>
+      <Col xs={12} md={8}>
       <HealthUpdateStrategiesDropdown
         formName={"aboveCapacityHealthUpdateStrategy"}
         displayName={"When above capacity"}
@@ -200,6 +249,11 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register={register}
         healthUpdateStrategies={healthUpdateStrategies}
       />
+      </Col>
+      </Row>
+
+      <Row>
+      <Col xs={12} md={8}>
       <HealthUpdateStrategiesDropdown
         formName={"belowCapacityHealthUpdateStrategy"}
         displayName={"When below capacity"}
@@ -207,7 +261,8 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register={register}
         healthUpdateStrategies={healthUpdateStrategies}
       />
-
+      </Col>
+      </Row>
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>
