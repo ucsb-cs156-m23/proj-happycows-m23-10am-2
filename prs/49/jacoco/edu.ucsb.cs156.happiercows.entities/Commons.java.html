@@ -28,6 +28,7 @@ public class Commons {
     private double milkPrice;
     private double startingBalance;
     private LocalDateTime startingDate;
+    private LocalDateTime lastdayDate;
     private boolean showLeaderboard;
     private double degradationRate;
     private int carryingCapacity;
@@ -41,6 +42,9 @@ public class Commons {
     @Builder.Default
     private CowHealthUpdateStrategies aboveCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_ABOVE_CAPACITY;
 
+    public boolean gameInProgress() {
+<span class="fc bfc" id="L46" title="All 4 branches covered.">        return (startingDate.isBefore(LocalDateTime.now()) &amp;&amp; lastdayDate.isAfter(LocalDateTime.now()));</span>
+    }
 
     @OneToMany(mappedBy = &quot;commons&quot;, cascade = CascadeType.REMOVE)
     @JsonIgnore
@@ -51,7 +55,7 @@ public class Commons {
 
     @JsonGetter(&quot;effectiveCapacity&quot;)
     public int getEffectiveCapacity() {
-<span class="fc" id="L54">        return Math.max(capacityPerUser * numUsers, carryingCapacity);</span>
+<span class="fc" id="L58">        return Math.max(capacityPerUser * numUsers, carryingCapacity);</span>
     }
 
 }
