@@ -45,13 +45,13 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
-      /Last Day Date/,
       /Degradation Rate/,
       /Carrying Capacity/,
       /Show Leaderboard\?/,
       /When below capacity/,
       /When above capacity/,
       /Capacity Per User/,
+      /Last Day Date/,
 
     ].forEach(
       (pattern) => {
@@ -68,12 +68,14 @@ describe("CommonsForm tests", () => {
     const submitAction = jest.fn();
     const curr = new Date();
     const today = curr.toISOString().substring(0, 10);
+    const monthFromToday = new Date(curr.setMonth(curr.getMonth() + 1)).toISOString().substring(0, 10);
     const defaultValues = {
       startingBalance: 10000,
       cowPrice: 100,
       milkPrice: 20,
       degradationRate: 1.5,
-      carryingCapacity: 100
+      carryingCapacity: 100,
+      capacityPerUser: 10
     } 
 
     axiosMock
@@ -104,7 +106,8 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(today);
     expect(screen.getByTestId("CommonsForm-degradationRate")).toHaveValue(defaultValues.degradationRate);
     expect(screen.getByTestId("CommonsForm-carryingCapacity")).toHaveValue(defaultValues.carryingCapacity);
-
+    expect(screen.getByTestId("CommonsForm-capacityPerUser")).toHaveValue(defaultValues.capacityPerUser);
+    expect(screen.getByTestId("CommonsForm-lastdayDate")).toHaveValue(monthFromToday);
 
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "" } });
@@ -112,19 +115,22 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-lastdayDate"), { target: { value: NaN } });
+
     expect(await screen.findByText('Starting Balance is required')).toBeInTheDocument();
     expect(screen.getByText('Cow price is required')).toBeInTheDocument();
     expect(screen.getByText('Milk price is required')).toBeInTheDocument();
     expect(screen.getByText('Degradation rate is required')).toBeInTheDocument();
     expect(screen.getByText('Carrying capacity is required')).toBeInTheDocument();
-    expect(screen.getByText('Last day date is required')).toBeInTheDocument();
+    expect(screen.getByText('Capacity Per User is required')).toBeInTheDocument();
 
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "-1" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "-1" } });
     fireEvent.click(submitButton);
 
     const milkPriceInput = await screen.findByTestId('CommonsForm-milkPrice');
@@ -141,10 +147,10 @@ describe("CommonsForm tests", () => {
       "CommonsForm-cowPrice",
       "CommonsForm-milkPrice",
       "CommonsForm-startingDate",
-      "CommonsForm-lastdayDate",
       "CommonsForm-degradationRate",
       "CommonsForm-carryingCapacity",
       "CommonsForm-capacityPerUser",
+      "CommonsForm-lastdayDate",
     ].forEach(
       (record) => {
         const element = screen.getByTestId(record);

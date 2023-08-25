@@ -26,13 +26,15 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
   const curr = new Date();
   const today = curr.toISOString().substring(0, 10);
+  const monthFromToday = new Date(curr.setMonth(curr.getMonth() + 1)).toISOString().substring(0, 10);
 
   const defaultValues = {
     startingBalance: 10000,
     cowPrice: 100,
     milkPrice: 20,
     degradationRate: 1.5,
-    carryingCapacity: 100
+    carryingCapacity: 100,
+    capacityPerUser: 10
   } 
 
   const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
@@ -219,6 +221,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           data-testid={`${testid}-lastdayDate`}
           id="lastdayDate"
           type="date"
+          defaultValue={monthFromToday}
           isInvalid={!!errors.lastdayDate}
           {...register("lastdayDate", {
             valueAsDate: true,
@@ -234,7 +237,6 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
       </Col>
       </Row>
 
-
       <Row>
       <Col xs={6} md={4}>
       <Form.Group className="mb-3">
@@ -244,6 +246,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
           id="capacityPerUser"
           type="number"
           step="1"
+          defaultValue={defaultValues.capacityPerUser}
           isInvalid={!!errors.capacityPerUser}
           {...register("capacityPerUser", {
             valueAsNumber: true,
