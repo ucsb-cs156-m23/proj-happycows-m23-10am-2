@@ -35,6 +35,8 @@ export default function CommonsTable({ commons, currentUser }) {
         navigate(`/leaderboard/${cell.row.values["commons.id"]}`)
     }
 
+    const downloadCallback = (cell) => window.location.href = `/api/commons/${cell.row.values["commons.id"]}/download?commonsId=${cell.row.values["commons.id"]}`;
+
     const columns = [
         {
             Header: 'id',
@@ -100,9 +102,10 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsIfAdmin = [
         ...columns,
-        ButtonColumn("Edit", "primary", editCallback, testid),
-        ButtonColumn("Delete", "danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid)
+        ButtonColumn("Edit","primary", editCallback, testid),
+        ButtonColumn("Delete","danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard","secondary", leaderboardCallback, testid),
+        ButtonColumn("Download", "success", downloadCallback, testid)
     ];
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
