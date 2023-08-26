@@ -6,12 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ucsb.cs156.happiercows.ControllerTestCase;
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
+import edu.ucsb.cs156.happiercows.entities.CommonStats;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
+import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.models.HealthUpdateStrategyList;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserRepository;
+import edu.ucsb.cs156.happiercows.repositories.CommonStatsRepository;
 import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -36,6 +40,14 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CommonsController.class)
@@ -51,8 +63,55 @@ public class CommonsControllerTests extends ControllerTestCase {
     @MockBean
     CommonsRepository commonsRepository;
 
+    @MockBean
+    CommonStatsRepository commonStatsRepository;
+
     @Autowired
     private ObjectMapper objectMapper;
+
+    private User user = User
+                        .builder()
+                        .id(42L)
+                        .fullName("Chris Gaucho")
+                        .email("cgaucho@example.org")
+                        .build();
+
+    private Commons commons = Commons
+                        .builder()
+                        .id(17L)
+                        .name("test commons")
+                        .cowPrice(10)
+                        .milkPrice(2)
+                        .startingBalance(300)
+                        .startingDate(LocalDateTime.parse("2022-03-05T15:50:10"))
+                        .showLeaderboard(true)
+                        .carryingCapacity(100)
+                        .degradationRate(0.01)
+                        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                        .build();
+
+    UserCommons userCommons = UserCommons
+                        .builder()
+                        .user(user)
+                        .username("Chris Gaucho")
+                        .commons(commons)
+                        .totalWealth(300)
+                        .numOfCows(123)
+                        .cowHealth(10)
+                        .cowsBought(78)
+                        .cowsSold(23)
+                        .cowDeaths(6)
+                        .build();
+
+    CommonStats expectedCommonStats = CommonStats
+                        .builder()
+                        .commonsId(17L)
+                        .numCows(123)
+                        .avgHealth(10.0)
+                        .timestamp(LocalDateTime.now())
+                        .build();
+
 
     @WithMockUser(roles = {"ADMIN"})
     @Test
@@ -65,6 +124,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -79,6 +139,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -118,6 +179,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -130,6 +192,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -170,6 +233,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(90))
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -182,6 +246,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(90))
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -219,6 +284,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(90))
                 .degradationRate(-8.49)
                 .carryingCapacity(100)
                 .capacityPerUser(105)
@@ -230,6 +296,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(90))
                 .degradationRate(-8.49)
                 .carryingCapacity(100)
                 .capacityPerUser(105)
@@ -280,6 +347,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
@@ -294,6 +362,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
@@ -360,6 +429,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(60))
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
@@ -372,6 +442,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(60))
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .carryingCapacity(100)
@@ -414,6 +485,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(60))
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -426,6 +498,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(60))
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -484,6 +557,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -496,6 +570,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(30))
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -737,6 +812,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastdayDate(someTime.plusDays(120))
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -924,4 +1000,31 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(Commons.computeEffectiveCapacity(c, commonsRepository), 100);
     }
       
+
+    @WithMockUser(roles = { "ADMIN" })
+        @Test
+        public void test_get_csv() throws Exception {
+                when(commonStatsRepository.findAllByCommonsId(commons.getId())).thenReturn(List.of(expectedCommonStats));
+
+                MvcResult response = mockMvc.perform(get("/api/commons/17L/download?commonsId=17")).andDo(print())
+                                .andExpect(status().isOk()).andReturn();
+
+                verify(commonStatsRepository, times(1)).findAllByCommonsId(eq(17L));
+                String responseString = response.getResponse().getContentAsString();
+
+                assertEquals("application/csv", response.getResponse().getContentType());
+
+                String[] lines = responseString.split("\\r?\\n");
+
+                assertEquals("id,commonsId,numCows,avgHealth,timestamp", lines[0]);
+
+                String[] fields = lines[1].split(",");
+
+                assertEquals("17", fields[1]);
+                assertEquals("123", fields[2]);
+                assertEquals("10.0", fields[3]);
+
+        }
+
+
 }

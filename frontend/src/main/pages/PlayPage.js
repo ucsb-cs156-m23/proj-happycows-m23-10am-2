@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, CardGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsOverview from "main/components/Commons/CommonsOverview";
@@ -62,7 +61,7 @@ export default function PlayPage() {
 
 
   const onSuccessBuy = () => {
-    toast(`Cow bought!`);
+    
   }
 
   // Stryker disable all (can't check if commonsId is null because it is mocked)
@@ -93,7 +92,7 @@ export default function PlayPage() {
 
 
   const onSuccessSell = () => {
-    toast(`Cow sold!`);
+    
   }
 
   // Stryker disable all 

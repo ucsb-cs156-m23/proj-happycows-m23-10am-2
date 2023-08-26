@@ -2,8 +2,11 @@ package edu.ucsb.cs156.happiercows.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.jose.util.Resource;
+
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
+import edu.ucsb.cs156.happiercows.entities.CommonStats;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
 import edu.ucsb.cs156.happiercows.errors.EntityNotFoundException;
@@ -11,7 +14,10 @@ import edu.ucsb.cs156.happiercows.models.CreateCommonsParams;
 import edu.ucsb.cs156.happiercows.models.HealthUpdateStrategyList;
 import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.repositories.UserCommonsRepository;
+import edu.ucsb.cs156.happiercows.repositories.CommonStatsRepository;
 import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
+import edu.ucsb.cs156.happiercows.helpers.CommonStatsCSVHelper;
+import edu.ucsb.cs156.happiercows.helpers.ReportCSVHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,11 +28,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 @Slf4j
 @Tag(name = "Commons")
@@ -38,6 +50,9 @@ public class CommonsController extends ApiController {
 
     @Autowired
     private UserCommonsRepository userCommonsRepository;
+
+    @Autowired
+    private CommonStatsRepository commonStatsRepository;
 
     @Autowired
     ObjectMapper mapper;
@@ -108,6 +123,7 @@ public class CommonsController extends ApiController {
         updated.setMilkPrice(params.getMilkPrice());
         updated.setStartingBalance(params.getStartingBalance());
         updated.setStartingDate(params.getStartingDate());
+        updated.setLastdayDate(params.getLastdayDate());
         updated.setShowLeaderboard(params.getShowLeaderboard());
         updated.setDegradationRate(params.getDegradationRate());
         updated.setCarryingCapacity(params.getCarryingCapacity());
@@ -154,6 +170,7 @@ public class CommonsController extends ApiController {
                 .milkPrice(params.getMilkPrice())
                 .startingBalance(params.getStartingBalance())
                 .startingDate(params.getStartingDate())
+                .lastdayDate(params.getLastdayDate())
                 .degradationRate(params.getDegradationRate())
                 .showLeaderboard(params.getShowLeaderboard())
                 .carryingCapacity(params.getCarryingCapacity())
@@ -274,5 +291,24 @@ public class CommonsController extends ApiController {
                 .totalUsers(numUsers.orElse(0))
                 .effectiveCapacity(Commons.computeEffectiveCapacity(c, commonsRepository))
                 .build();
+    }
+
+    @Operation(summary="Download CSV file for common stats for a given Commons ID")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/{commonsId}/download")
+    public ResponseEntity<InputStreamResource> downloadCommonStats(
+            @Parameter(name = "commonsId") @RequestParam Long commonsId) throws IOException{
+
+        Iterable<CommonStats> commonStatsList = commonStatsRepository.findAllByCommonsId(commonsId);
+
+        String filename = String.format("commonStats%05d.csv",commonsId);
+
+        ByteArrayInputStream bais = CommonStatsCSVHelper.toCSV(commonStatsList);
+        InputStreamResource isr = new InputStreamResource(bais);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(isr);
     }
 }
