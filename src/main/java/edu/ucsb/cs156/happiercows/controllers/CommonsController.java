@@ -320,7 +320,8 @@ public class CommonsController extends ApiController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/csv"));
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(isr);
     }
 }
 
