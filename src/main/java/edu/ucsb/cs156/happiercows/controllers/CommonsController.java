@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.lang.Math;
 
 @Slf4j
 @Tag(name = "Commons")
@@ -47,6 +48,7 @@ public class CommonsController extends ApiController {
     public ResponseEntity<String> getCommons() throws JsonProcessingException {
         log.info("getCommons()...");
         Iterable<Commons> commons = commonsRepository.findAll();
+        commons.forEach((common) -> updateEffectiveCapacity(common));
         String body = mapper.writeValueAsString(commons);
         return ResponseEntity.ok().body(body);
     }
@@ -61,6 +63,7 @@ public class CommonsController extends ApiController {
         // below
         List<Commons> commonsList = new ArrayList<Commons>();
         commonsListIter.forEach(commonsList::add);
+        commonsList.forEach((common) -> updateEffectiveCapacity(common));
 
         List<CommonsPlus> commonsPlusList1 = commonsList.stream()
                 .map(c -> toCommonsPlus(c))
@@ -77,8 +80,11 @@ public class CommonsController extends ApiController {
     @GetMapping("/plus")
     public CommonsPlus getCommonsPlusById(
             @Parameter(name="id") @RequestParam long id) throws JsonProcessingException {
-                CommonsPlus commonsPlus = toCommonsPlus(commonsRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Commons.class, id)));
+            
+            Commons common = commonsRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
+            common = updateEffectiveCapacity(common);
+            CommonsPlus commonsPlus = toCommonsPlus(common);
 
         return commonsPlus;
     }
@@ -137,7 +143,7 @@ public class CommonsController extends ApiController {
 
         Commons commons = commonsRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Commons.class, id));
-
+        commons = updateEffectiveCapacity(commons);
         return commons;
     }
 
@@ -267,12 +273,19 @@ public class CommonsController extends ApiController {
     public CommonsPlus toCommonsPlus(Commons c) {
         Optional<Integer> numCows = commonsRepository.getNumCows(c.getId());
         Optional<Integer> numUsers = commonsRepository.getNumUsers(c.getId());
-        
+
+
         return CommonsPlus.builder()
                 .commons(c)
                 .totalCows(numCows.orElse(0))
                 .totalUsers(numUsers.orElse(0))
-                .effectiveCapacity(Commons.computeEffectiveCapacity(c, commonsRepository))
                 .build();
     }
+
+    public Commons updateEffectiveCapacity(Commons c) {
+        Optional<Integer> numUsers = commonsRepository.getNumUsers(c.getId());
+        c.setEffectiveCapacity(Math.max(numUsers.orElse(0) * c.getCapacityPerUser(), c.getCarryingCapacity()));
+        return c;
+    }
 }
+

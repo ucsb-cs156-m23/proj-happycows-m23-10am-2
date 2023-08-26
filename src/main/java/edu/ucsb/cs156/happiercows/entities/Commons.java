@@ -35,6 +35,7 @@ public class Commons {
     private double degradationRate;
     private int carryingCapacity;
     private int capacityPerUser;
+    private int effectiveCapacity;
 
     // these defaults match old behavior
     @Enumerated(EnumType.STRING)
@@ -48,11 +49,6 @@ public class Commons {
     @OneToMany(mappedBy = "commons", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<UserCommons> joinedUsers;
-
-    @JsonGetter("effectiveCapacity")
-    public static int computeEffectiveCapacity(Commons commons, CommonsRepository commonsRepository) {
-        return Math.max(commons.getCapacityPerUser() * commonsRepository.getNumUsers(commons.getId()).get(), commons.getCarryingCapacity());
-    }
 
 }
 

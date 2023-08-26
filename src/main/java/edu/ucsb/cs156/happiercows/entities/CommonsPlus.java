@@ -13,5 +13,4 @@ public class CommonsPlus {
     private Commons commons;
     private Integer totalCows;
     private Integer totalUsers;
-    private int effectiveCapacity;
 }
