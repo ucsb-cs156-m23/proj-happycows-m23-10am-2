@@ -1,7 +1,6 @@
 package edu.ucsb.cs156.happiercows.jobs;
 
 import java.time.LocalDateTime;
-
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.Profit;
 import edu.ucsb.cs156.happiercows.entities.User;
@@ -38,6 +37,10 @@ public class MilkTheCowsJob implements JobContextConsumer {
         Iterable<Commons> allCommons = commonsRepository.findAll();
 
         for (Commons commons : allCommons) {
+            if (!commons.gameInProgress()) {
+                ctx.log("Skipping Milking Cows at Commons: " + commons.getName() + " because game is not in progress");
+                continue;
+            }
             String name = commons.getName();
             double milkPrice = commons.getMilkPrice();
             ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));

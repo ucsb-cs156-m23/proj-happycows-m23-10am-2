@@ -51,11 +51,23 @@ public class MilkTheCowsJobTests {
             .cowPrice(10)
             .milkPrice(2)
             .startingBalance(300)
-            .startingDate(LocalDateTime.now())
+            .startingDate(LocalDateTime.now().minusDays(30))
+            .lastdayDate(LocalDateTime.now().plusDays(30))
             .carryingCapacity(100)
             .degradationRate(0.01)
             .build();
 
+    private Commons pastCommons = Commons
+            .builder()
+            .name("past commons")
+            .cowPrice(10)
+            .milkPrice(2)
+            .startingBalance(300)
+            .startingDate(LocalDateTime.now().minusDays(60))
+            .lastdayDate(LocalDateTime.now().minusDays(30))
+            .carryingCapacity(100)
+            .degradationRate(0.01)
+            .build();
 
     @Test
     void test_log_output_no_commons() throws Exception {
@@ -114,6 +126,43 @@ public class MilkTheCowsJobTests {
                 Milking cows for Commons: test commons, Milk Price: $2.00
                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
                 Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20
+                Cows have been milked!""";
+
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_log_output_job_skipped() throws Exception {
+
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(pastCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(pastCommons));
+        when(userCommonsRepository.findByCommonsId(pastCommons.getId()))
+                .thenReturn(Arrays.asList(origUserCommons));
+        when(commonsRepository.getNumCows(pastCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        MilkTheCowsJob.accept(ctx);
+
+        // Assert
+
+        String expected = """
+                Starting to milk the cows
+                Skipping Milking Cows at Commons: past commons because game is not in progress
                 Cows have been milked!""";
 
         assertEquals(expected, jobStarted.getLog());

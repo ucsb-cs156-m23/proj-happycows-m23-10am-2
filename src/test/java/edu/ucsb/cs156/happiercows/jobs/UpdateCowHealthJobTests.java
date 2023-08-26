@@ -52,7 +52,22 @@ public class UpdateCowHealthJobTests {
                         .cowPrice(10)
                         .milkPrice(2)
                         .startingBalance(300)
-                        .startingDate(LocalDateTime.now())
+                        .startingDate(LocalDateTime.now().minusDays(30))
+                        .lastdayDate(LocalDateTime.now().plusDays(30))
+                        .carryingCapacity(100)
+                        .degradationRate(1)
+                        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+                        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+                        .build();
+        
+        private final Commons pastCommons = Commons
+                        .builder()
+                        .name("past commons")
+                        .cowPrice(10)
+                        .milkPrice(2)
+                        .startingBalance(300)
+                        .startingDate(LocalDateTime.now().minusDays(60))
+                        .lastdayDate(LocalDateTime.now().minusDays(30))
                         .carryingCapacity(100)
                         .degradationRate(1)
                         .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
@@ -306,6 +321,24 @@ public class UpdateCowHealthJobTests {
                                 Updating cow health...
                                 Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
                                 No users in this commons, skipping
+                                Cow health has been updated!""";
+
+                assertEquals(expected, job.getLog());
+        }
+
+        @Test
+        void test_skipping_job_when_commons_not_active() throws Exception {
+
+                pastCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
+
+                when(commonsRepository.findAll()).thenReturn(List.of(pastCommons));
+                when(commonsRepository.getNumUsers(pastCommons.getId())).thenReturn(Optional.of(0));
+
+                runUpdateCowHealthJob();
+
+                String expected = """
+                                Updating cow health...
+                                Skipping Cow Health Update at Commons: past commons because game is not in progress
                                 Cow health has been updated!""";
 
                 assertEquals(expected, job.getLog());
