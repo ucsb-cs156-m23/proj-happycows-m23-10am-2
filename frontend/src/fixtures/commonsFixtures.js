@@ -5,6 +5,7 @@ const commonsFixtures = {
             "name": "Seths Common",
             "day": 5,
             "startingDate": "2022-03-05T15:50:10",
+            "lastdayDate": "2022-04-05T15:50:10",
             "startingBalance": 1200.10,
             "totalPlayers": 50,
             "cowPrice": 15,
@@ -13,7 +14,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 105,
-            "effectiveCapacity": 1050,
+            "effectiveCapacity": 5250,
             "belowCapacityHealthUpdateStrategy": "Noop",
             "aboveCapacityHealthUpdateStrategy": "Noop"
         },
@@ -22,6 +23,7 @@ const commonsFixtures = {
             "name": "Kevin's Commons",
             "day": 5,
             "startingDate": "2012-03-05T15:50:10",
+            "lastdayDate": "2012-04-05T15:50:10",
             "startingBalance": 100.50,
             "totalPlayers": 50,
             "cowPrice": 15,
@@ -30,7 +32,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 123,
             "capacityPerUser": 110,
-            "effectiveCapacity": 1100,
+            "effectiveCapacity": 5500,
             "belowCapacityHealthUpdateStrategy": "Linear",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -39,6 +41,7 @@ const commonsFixtures = {
             "name": "Anika's Commons",
             "day": 5,
             "startingDate": "2026-03-05T15:50:10",
+            "lastdayDate": "2026-04-05T15:50:10",
             "startingBalance": 200.50,
             "totalPlayers": 50,
             "cowPrice": 15,
@@ -47,32 +50,31 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 42,
             "capacityPerUser": 115,
-            "effectiveCapacity": 1150,
+            "effectiveCapacity": 5750,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }
     ],
-    oneCommons:
-        [
-            {
-                "id": 1,
-                "name": "Anika's Commons",
-                "day": 5,
-                "startingDate": "2025-03-05T15:50:10",
-                "startingBalance": 2000.50,
-                "totalPlayers": 50,
-                "cowPrice": 15,
-                "milkPrice": 10,
-                "degradationRate": .5,
-                "showLeaderboard": true,
-                "carryingCapacity": 314,
-                "capacityPerUser": 120,
-                "effectiveCapacity": 1200,
-                "belowCapacityHealthUpdateStrategy": "Constant",
-                "aboveCapacityHealthUpdateStrategy": "Linear"
-            }
-        ],
-
+    oneCommons: [
+        {
+            "id": 1,
+            "name": "Anika's Commons",
+            "day": 5,
+            "startingDate": "2025-03-05T15:50:10",
+            "lastdayDate": "2025-04-05T15:50:10",
+            "startingBalance": 2000.50,
+            "totalPlayers": 50,
+            "cowPrice": 15,
+            "milkPrice": 10,
+            "degradationRate": .5,
+            "showLeaderboard": true,
+            "carryingCapacity": 314,
+            "capacityPerUser": 120,
+            "effectiveCapacity": 6000,
+            "belowCapacityHealthUpdateStrategy": "Constant",
+            "aboveCapacityHealthUpdateStrategy": "Linear"
+        }
+    ],
     sevenCommons: [
         {
             "id": 10,
@@ -84,7 +86,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 125,
-            "effectiveCapacity": 1250,
+            "effectiveCapacity": 6250,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -98,7 +100,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 130,
-            "effectiveCapacity": 1300,
+            "effectiveCapacity": 6500,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -112,7 +114,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 135,
-            "effectiveCapacity": 1350,
+            "effectiveCapacity": 6750,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -126,7 +128,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 140,
-            "effectiveCapacity": 1400,
+            "effectiveCapacity": 7000,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -140,7 +142,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 145,
-            "effectiveCapacity": 1450,
+            "effectiveCapacity": 7250,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -154,7 +156,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 150,
-            "effectiveCapacity": 1500,
+            "effectiveCapacity": 7500,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         },
@@ -168,7 +170,7 @@ const commonsFixtures = {
             "showLeaderboard": true,
             "carryingCapacity": 100,
             "capacityPerUser": 155,
-            "effectiveCapacity": 1550,
+            "effectiveCapacity": 7750,
             "belowCapacityHealthUpdateStrategy": "Constant",
             "aboveCapacityHealthUpdateStrategy": "Linear"
         }

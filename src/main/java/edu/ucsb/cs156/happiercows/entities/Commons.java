@@ -3,6 +3,8 @@ package edu.ucsb.cs156.happiercows.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -46,12 +49,12 @@ public class Commons {
     @JsonIgnore
     private List<UserCommons> joinedUsers;
 
-    @JsonIgnore
-    private int numUsers;
-
     @JsonGetter("effectiveCapacity")
-    public int getEffectiveCapacity() {
-        return Math.max(capacityPerUser * numUsers, carryingCapacity);
+    public static int computeEffectiveCapacity(Commons commons, CommonsRepository commonsRepository) {
+        return Math.max(commons.getCapacityPerUser() * commonsRepository.getNumUsers(commons.getId()).get(), commons.getCarryingCapacity());
     }
 
 }
+
+
+

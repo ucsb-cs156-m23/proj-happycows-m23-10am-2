@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 
-import org.hibernate.cfg.JoinedSubclassFkSecondPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -226,9 +225,6 @@ public class CommonsController extends ApiController {
 
         userCommonsRepository.save(uc);
 
-        
-        joinedCommons.setNumUsers(joinedCommons.getNumUsers() + 1);
-        commonsRepository.save(joinedCommons);
 
         String body = mapper.writeValueAsString(joinedCommons);
         return ResponseEntity.ok().body(body);
@@ -265,21 +261,18 @@ public class CommonsController extends ApiController {
 
         String responseString = String.format("user with id %d deleted from commons with id %d, %d users remain", userId, commonsId, commonsRepository.getNumUsers(commonsId).orElse(0));
 
-        Commons exitedCommon = commonsRepository.findById(commonsId).orElse(null);
-        exitedCommon.setNumUsers(exitedCommon.getNumUsers() - 1);
-        commonsRepository.save(exitedCommon);
-
         return genericMessage(responseString);
     }
 
     public CommonsPlus toCommonsPlus(Commons c) {
         Optional<Integer> numCows = commonsRepository.getNumCows(c.getId());
         Optional<Integer> numUsers = commonsRepository.getNumUsers(c.getId());
-
+        
         return CommonsPlus.builder()
                 .commons(c)
                 .totalCows(numCows.orElse(0))
                 .totalUsers(numUsers.orElse(0))
+                .effectiveCapacity(Commons.computeEffectiveCapacity(c, commonsRepository))
                 .build();
     }
 }

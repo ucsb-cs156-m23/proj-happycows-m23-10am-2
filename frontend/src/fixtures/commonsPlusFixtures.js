@@ -16,7 +16,8 @@ const commonsPlusFixtures = {
                 "effectiveCapacity": 210,
             },
             "totalCows": 10,
-            "totalUsers": 2
+            "totalUsers": 2,
+            "effectiveCapacity": 210
         },
         {
             "commons":
@@ -35,7 +36,8 @@ const commonsPlusFixtures = {
                 "effectiveCapacity": 110,
             },
             "totalCows": 0,
-            "totalUsers": 1
+            "totalUsers": 1,
+            "effectiveCapacity": 110
         },
         {
             "commons":
@@ -54,7 +56,8 @@ const commonsPlusFixtures = {
                 "effectiveCapacity": 123,
             },
             "totalCows": 0,
-            "totalUsers": 1
+            "totalUsers": 1,
+            "effectiveCapacity": 123
         },
 
     ],
@@ -76,7 +79,8 @@ const commonsPlusFixtures = {
                 "effectiveCapacity": 23,
             },
             "totalCows": 0,
-            "totalUsers": 0
+            "totalUsers": 0,
+            "effectiveCapacity": 23
         }
     ]
 }

@@ -666,7 +666,6 @@ public class CommonsControllerTests extends ControllerTestCase {
         String cAsJson = mapper.writeValueAsString(c);
 
         assertEquals(responseString, cAsJson);
-        assertEquals(c.getNumUsers(),1);
     }
 
     @WithMockUser(roles = {"USER"})
@@ -799,8 +798,6 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .numOfCows(1)
                 .build();
 
-        c.setNumUsers(1);
-        
         String requestBody = mapper.writeValueAsString(uc);
 
         when(userCommonsRepository.findByCommonsIdAndUserId(2L, 1L)).thenReturn(Optional.of(uc));
@@ -819,7 +816,6 @@ public class CommonsControllerTests extends ControllerTestCase {
         String expectedString = "{\"message\":\"user with id 1 deleted from commons with id 2, 0 users remain\"}";
 
         assertEquals(responseString, expectedString);
-        assertEquals(c.getNumUsers(), 0);
     }
 
     @WithMockUser(roles = {"ADMIN"})
@@ -882,9 +878,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .capacityPerUser(1)
                 .build();
 
-        c.setNumUsers(99);
-
-        assertEquals(c.getEffectiveCapacity(), 100);
+        when(commonsRepository.getNumUsers(c.getId())).thenReturn(Optional.of(99));
+        assertEquals(Commons.computeEffectiveCapacity(c, commonsRepository), 100);
     }
 
     @WithMockUser(roles = {"ADMIN"})
@@ -904,9 +899,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .capacityPerUser(1)
                 .build();
 
-        c.setNumUsers(101);
-
-        assertEquals(c.getEffectiveCapacity(), 101);
+        when(commonsRepository.getNumUsers(c.getId())).thenReturn(Optional.of(101));
+        assertEquals(Commons.computeEffectiveCapacity(c, commonsRepository), 101);
     }
 
     @WithMockUser(roles = {"ADMIN"})
@@ -926,8 +920,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .capacityPerUser(200)
                 .build();
 
-
-        assertEquals(c.getEffectiveCapacity(), 100);
+        when(commonsRepository.getNumUsers(c.getId())).thenReturn(Optional.of(0));
+        assertEquals(Commons.computeEffectiveCapacity(c, commonsRepository), 100);
     }
       
 }
