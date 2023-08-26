@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ public class InstructorReportJobTests {
 
         // Arrange
 
-        Commons commons= Commons.builder().id(17L).name("CS156").build();
+        Commons commons = Commons.builder().id(17L).name("CS156").startingDate(LocalDateTime.now().minusDays(30)).lastdayDate(LocalDateTime.now().plusDays(30)).build();
         Report report = Report.builder().id(17L).build();
         
         Job jobStarted = Job.builder().build();
@@ -58,6 +59,36 @@ public class InstructorReportJobTests {
             Starting instructor report...
             Starting Commons id=17 (CS156)...
             Report 17 for commons id=17 (CS156) finished.
+            Instructor report done!""";
+
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_log_skipped() throws Exception {
+
+        // Arrange
+
+        Commons pastCommons = Commons.builder().id(18L).name("past commons").startingDate(LocalDateTime.now().minusDays(60)).lastdayDate(LocalDateTime.now().minusDays(30)).build();        
+        Report report = Report.builder().id(18L).build();
+        
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+      
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(pastCommons));      
+        when(reportService.createReport(18L)).thenReturn(report);
+
+        // Act
+        InstructorReportJob instructorReportJob = new InstructorReportJob(reportService, commonsRepository);
+        instructorReportJob.accept(ctx);
+
+        // Assert
+
+        verify(commonsRepository).findAll();
+        
+        String expected = """
+            Starting instructor report...
+            Skipping Producing Report for Commons: past commons because game is not in progress
             Instructor report done!""";
 
         assertEquals(expected, jobStarted.getLog());

@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import OurTable, {ButtonColumn} from "main/components/OurTable";
 import { useBackendMutation } from "main/utils/useBackend";
 import { cellToAxiosParamsDelete, onDeleteSuccess } from "main/utils/commonsUtils"
 import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 export default function CommonsTable({ commons, currentUser }) {
+    const [show, setShow] = useState(false);
+    const [cellToDelete, setCellToDelete] = useState(null);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const navigate = useNavigate();
 
@@ -19,8 +26,9 @@ export default function CommonsTable({ commons, currentUser }) {
         ["/api/commons/allplus"]
     );
 
-    const deleteCallback = async (cell) => { 
-        deleteMutation.mutate(cell); 
+    const deleteCallback = async (cell) => {
+        setCellToDelete(cell);
+        handleShow();
     }
 
     const leaderboardCallback = (cell) => {
@@ -58,6 +66,11 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'commons.startingDate'
         },
         {
+            Header:'Last Day Date',
+            accessor: row => String(row.commons.lastdayDate).slice(0,10),
+            id: 'commons.lastdayDate'
+        },
+        {
             Header:'Degradation Rate',
             accessor: row => row.commons.degradationRate,
             id: 'commons.degradationRate'
@@ -92,19 +105,42 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsIfAdmin = [
         ...columns,
-        ButtonColumn("Edit",
-"primary", editCallback, testid),
-        ButtonColumn("Delete",
-"danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard",
-"secondary", leaderboardCallback, testid)
+        ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid)
     ];
 
     const columnsToDisplay = hasRole(currentUser,"ROLE_ADMIN") ? columnsIfAdmin : columns;
 
-    return <OurTable
+    const modalForm = (<Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        data-testid="delete-modal"
+    >
+        <Modal.Header closeButton>
+        <Modal.Title>Are you sure you want to delete this commons?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        This is your last chance to keep this commons. If you choose to delete it, it will be gone forever.
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="primary" onClick={handleClose} data-testid={`cancel-delete-button`}>
+        Keep this Commons
+        </Button>
+        <Button variant="danger" onClick={() => { deleteMutation.mutate(cellToDelete); handleClose()}} data-testid={`confirm-delete-button`}>
+        Permanently Delete
+            </Button>
+        </Modal.Footer>
+  </Modal>);
+
+    return (
+    <>
+        <OurTable
         data={commons}
         columns={columnsToDisplay}
         testid={testid}
-    />;
+        />
+        {modalForm}
+    </>);
 };

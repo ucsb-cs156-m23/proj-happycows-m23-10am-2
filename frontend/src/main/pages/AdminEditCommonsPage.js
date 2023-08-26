@@ -34,6 +34,7 @@ export default function CommonsEditPage() {
         "cowPrice": commons.cowPrice,
         "milkPrice": commons.milkPrice,
         "startingDate": commons.startingDate,
+        "lastdayDate": commons.lastdayDate,
         "degradationRate": commons.degradationRate,
         "carryingCapacity": commons.carryingCapacity,
         "capacityPerUser": commons.capacityPerUser,
