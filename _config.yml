@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-m23/proj-happycows-m23-10am-2
 owner: ucsb-cs156-m23
 repo_name: proj-happycows-m23-10am-2
-pull_requests: [{"author":{"id":"MDQ6VXNlcjc3NzExNDA2","is_bot":false,"login":"kirrarista","name":"Kirill Aristarkhov"},"headRefName":"ka-effectiveCapacity","number":61,"title":"ka - reimplements effectiveCapacity issue","url":"https://github.com/ucsb-cs156-m23/proj-happycows-m23-10am-2/pull/61"}]
+pull_requests: []
