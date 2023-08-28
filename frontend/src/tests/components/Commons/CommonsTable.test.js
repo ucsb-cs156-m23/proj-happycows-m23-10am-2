@@ -147,29 +147,29 @@ describe("UserTable tests", () => {
       );
     });
 
-    test("the download button works as intended", async () => {
-    
-      const currentUser = currentUserFixtures.adminUser;
+  });
 
-      render(
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter>
-            <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
-          </MemoryRouter>
-        </QueryClientProvider>
-      );
-  
-      await waitFor(() => {
-        expect(screen.getByTestId("CommonsTable-cell-row-0-col-Download-button")).toBeInTheDocument();
-      });
-  
-      const downloadButton = screen.getByTestId("CommonsTable-cell-row-0-col-Download-button");
-      fireEvent.click(downloadButton);
-  
-      await waitFor(() => {
-        expect(window.location.href).toBe("/api/commons/1/download?commonsId=1")
-      });
-  
+  test("the download button works as intended", async () => {
+    
+    const currentUser = currentUserFixtures.adminUser;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("CommonsTable-cell-row-0-col-Download-button")).toBeInTheDocument();
+    });
+
+    const downloadButton = screen.getByTestId("CommonsTable-cell-row-0-col-Download-button");
+    fireEvent.click(downloadButton);
+
+    await waitFor(() => {
+      expect(window.location.href).toBe("/api/commons/1/download?commonsId=1")
     });
 
   });
