@@ -74,7 +74,7 @@ public class UpdateCowHealthJob implements JobContextConsumer {
             UserCommons userCommons,
             int totalCows
     ) {
-<span class="fc" id="L77">        var health = strategy.calculateNewCowHealth(commons, userCommons, totalCows);</span>
+<span class="fc" id="L77">        var health = strategy.calculateNewCowHealth(commons, commonsRepository, userCommons, totalCows);</span>
 <span class="fc" id="L78">        return Math.max(0, Math.min(health, 100));</span>
     }
 
