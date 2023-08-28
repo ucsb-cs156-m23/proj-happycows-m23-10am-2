@@ -2,6 +2,8 @@
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +44,11 @@ public class Commons {
     private CowHealthUpdateStrategies aboveCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_ABOVE_CAPACITY;
 
     public boolean gameInProgress() {
-<span class="fc bfc" id="L45" title="All 4 branches covered.">        return (startingDate.isBefore(LocalDateTime.now()) &amp;&amp; lastdayDate.isAfter(LocalDateTime.now()));</span>
+<span class="fc bfc" id="L47" title="All 4 branches covered.">        return (startingDate.isBefore(LocalDateTime.now()) &amp;&amp; lastdayDate.isAfter(LocalDateTime.now()));</span>
+    }
+
+    public static int computeEffectiveCapacity(Commons commons, CommonsRepository commonsRepository) {
+<span class="fc" id="L51">        return Math.max(commons.getCapacityPerUser() * commonsRepository.getNumUsers(commons.getId()).orElse(0), commons.getCarryingCapacity());</span>
     }
 
     @OneToMany(mappedBy = &quot;commons&quot;, cascade = CascadeType.REMOVE)
