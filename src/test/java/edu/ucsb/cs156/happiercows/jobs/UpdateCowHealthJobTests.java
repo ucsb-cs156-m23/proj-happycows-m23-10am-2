@@ -173,6 +173,7 @@ public class UpdateCowHealthJobTests {
                 var newHealth = UpdateCowHealthJob.calculateNewCowHealthUsingStrategy(
                                 mockStrategy,
                                 commons,
+                                commonsRepository,
                                 userCommons,
                                 1);
                 assertEquals(0.0, newHealth);
@@ -185,6 +186,7 @@ public class UpdateCowHealthJobTests {
                 var newHealth = UpdateCowHealthJob.calculateNewCowHealthUsingStrategy(
                                 mockStrategy,
                                 commons,
+                                commonsRepository,
                                 userCommons,
                                 1);
                 assertEquals(100.0, newHealth);

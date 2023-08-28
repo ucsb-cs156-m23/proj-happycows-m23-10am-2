@@ -19,13 +19,6 @@ jest.mock('react-router-dom', () => ({
 describe("UserTable tests", () => {
   const queryClient = new QueryClient();
 
-  Object.defineProperty(window, "location", {
-    value: {
-      href: ""
-    },
-    writable:true
-  })
-
   test("renders without crashing for empty table with user not logged in", () => {
     const currentUser = null;
 
@@ -76,8 +69,10 @@ describe("UserTable tests", () => {
 
     );
 
-    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Last Day Date', 'Degradation Rate', 'Carrying Capacity', 'Capacity Per User', 'Cows', 'Show Leaderboard?'];
+
+    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Last Day Date', 'Degradation Rate', 'Carrying Capacity', 'Capacity Per User', 'Effective Capacity', 'Cows', 'Show Leaderboard?'];
     const expectedFields = ["id", "name", "cowPrice", "milkPrice", "startingBalance", "startingDate", "lastdayDate", "degradationRate", "carryingCapacity", "capacityPerUser"];
+
     const testId = "CommonsTable";
 
     expectedHeaders.forEach((headerText) => {
@@ -98,8 +93,10 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.cowPrice`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.milkPrice`)).toHaveTextContent("2");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.degradationRate`)).toHaveTextContent("0.01");
+
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.carryingCapacity`)).toHaveTextContent("42");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.capacityPerUser`)).toHaveTextContent("110");
+    expect(screen.getByTestId(`${testId}-cell-row-1-col-effectiveCapacity`)).toHaveTextContent("110");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.startingBalance`)).toHaveTextContent("10");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.startingDate`)).toHaveTextContent(/^2022-11-22$/); // regex so that we have an exact match https://stackoverflow.com/a/73298371
     expect(screen.getByTestId(`${testId}-cell-row-1-col-commons.lastdayDate`)).toHaveTextContent(/^2022-12-22$/);
@@ -109,7 +106,6 @@ describe("UserTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-Edit-button`)).toHaveClass("btn-primary");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-Delete-button`)).toHaveClass("btn-danger");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-Leaderboard-button`)).toHaveClass("btn-secondary");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-Download-button`)).toHaveClass("btn-success");
   });
 
   test("the correct parameters are passed to useBackendMutation when Delete is clicked", async () => {
@@ -141,31 +137,6 @@ describe("UserTable tests", () => {
         { onSuccess: onDeleteSuccess },
         ["/api/commons/allplus"]
       );
-    });
-
-  });
-
-  test("the download button works as intended", async () => {
-
-    const currentUser = currentUserFixtures.adminUser;
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <CommonsTable commons={commonsPlusFixtures.threeCommonsPlus} currentUser={currentUser} />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("CommonsTable-cell-row-0-col-Download-button")).toBeInTheDocument();
-    });
-
-    const downloadButton = screen.getByTestId("CommonsTable-cell-row-0-col-Download-button");
-    fireEvent.click(downloadButton);
-
-    await waitFor(() => {
-      expect(window.location.href).toBe("/api/commons/1/download?commonsId=1")
     });
 
   });
