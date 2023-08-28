@@ -95,6 +95,10 @@ export default function CommonsTable({ commons, currentUser }) {
             Header: 'Capacity Per User',
             accessor: row => row.commons.capacityPerUser,
             id: 'commons.capacityPerUser'
+        },
+        {
+            Header: 'Effective Capacity',
+            accessor: 'effectiveCapacity'
         }
     ];
 
@@ -102,9 +106,9 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columnsIfAdmin = [
         ...columns,
-        ButtonColumn("Edit","primary", editCallback, testid),
-        ButtonColumn("Delete","danger", deleteCallback, testid),
-        ButtonColumn("Leaderboard","secondary", leaderboardCallback, testid),
+        ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid),
+        ButtonColumn("Leaderboard", "secondary", leaderboardCallback, testid),
         ButtonColumn("Download", "success", downloadCallback, testid)
     ];
 

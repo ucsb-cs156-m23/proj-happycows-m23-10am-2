@@ -2,6 +2,8 @@ package edu.ucsb.cs156.happiercows.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import edu.ucsb.cs156.happiercows.repositories.CommonsRepository;
 import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +45,10 @@ public class Commons {
 
     public boolean gameInProgress() {
         return (startingDate.isBefore(LocalDateTime.now()) && lastdayDate.isAfter(LocalDateTime.now()));
+    }
+
+    public static int computeEffectiveCapacity(Commons commons, CommonsRepository commonsRepository) {
+        return Math.max(commons.getCapacityPerUser() * commonsRepository.getNumUsers(commons.getId()).orElse(0), commons.getCarryingCapacity());
     }
 
     @OneToMany(mappedBy = "commons", cascade = CascadeType.REMOVE)

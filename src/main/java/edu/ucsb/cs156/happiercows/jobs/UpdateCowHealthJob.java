@@ -41,17 +41,17 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 continue;
             }
 
-            int carryingCapacity = commons.getCarryingCapacity();
+            int effectiveCapacity = Commons.computeEffectiveCapacity(commons, commonsRepository);
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
             Integer totalCows = commonsRepository.getNumCows(commons.getId()).orElseThrow(() -> new RuntimeException("Error calling getNumCows(" + commons.getId() + ")"));
 
-            var isAboveCapacity = totalCows > carryingCapacity;
+            var isAboveCapacity = totalCows > effectiveCapacity;
             var cowHealthUpdateStrategy = isAboveCapacity ? commons.getAboveCapacityHealthUpdateStrategy() : commons.getBelowCapacityHealthUpdateStrategy();
 
             for (UserCommons userCommons : allUserCommons) {
                 User user = userCommons.getUser();
-                var newCowHealth = calculateNewCowHealthUsingStrategy(cowHealthUpdateStrategy, commons, userCommons, totalCows);
+                var newCowHealth = calculateNewCowHealthUsingStrategy(cowHealthUpdateStrategy, commons, commonsRepository, userCommons, totalCows);
                 ctx.log("User: " + user.getFullName() + ", numCows: " + userCommons.getNumOfCows() + ", cowHealth: " + userCommons.getCowHealth());
 
                 double oldHealth = userCommons.getCowHealth();
@@ -70,10 +70,11 @@ public class UpdateCowHealthJob implements JobContextConsumer {
     public static double calculateNewCowHealthUsingStrategy(
             CowHealthUpdateStrategy strategy,
             Commons commons,
+            CommonsRepository commonsRepository,
             UserCommons userCommons,
             int totalCows
     ) {
-        var health = strategy.calculateNewCowHealth(commons, userCommons, totalCows);
+        var health = strategy.calculateNewCowHealth(commons, commonsRepository, userCommons, totalCows);
         return Math.max(0, Math.min(health, 100));
     }
 
